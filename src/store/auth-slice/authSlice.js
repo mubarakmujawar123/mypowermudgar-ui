@@ -27,7 +27,7 @@ export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
     return error?.response?.data;
   }
 });
-export const logoutUser = createAsyncThunk("auth/logout", async () => {
+export const logoutUser = createAsyncThunk("/auth/logout", async () => {
   try {
     const response = await APIConfig.post("/auth/logout", {});
     return response?.data;
@@ -42,7 +42,7 @@ export const checkAuth = createAsyncThunk("/auth/checkAuth", async () => {
   //     "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate",
   //   },
   try {
-    const response = await APIConfig.get("auth/checkAuth");
+    const response = await APIConfig.get("/auth/checkAuth");
     return response?.data;
   } catch (error) {
     return error?.response?.data;

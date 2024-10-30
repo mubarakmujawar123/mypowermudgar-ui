@@ -9,7 +9,7 @@ import AdminProducts from "./pages/admin-view/AdminProducts";
 import AdminOrders from "./pages/admin-view/adminOrders";
 import ShoppingLayout from "./components/shopping-view/ShoppingLayout";
 import NotFound from "./pages/NotFound";
-import ShppingHome from "./pages/shopping-view/ShppingHome";
+import ShoppingHome from "./pages/shopping-view/ShoppingHome";
 import Listing from "./pages/shopping-view/Listing";
 import Checkout from "./pages/shopping-view/Checkout";
 import Accounts from "./pages/shopping-view/Accounts";
@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice/authSlice";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ProductDetails } from "./pages/shopping-view/ProductDetails";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -64,10 +65,11 @@ function App() {
             </CheckAuth>
           }
         >
-          <Route path="home" element={<ShppingHome />} />
+          <Route path="home" element={<ShoppingHome />} />
           <Route path="listing" element={<Listing />} />
           <Route path="checkout" element={<Checkout />} />
-          <Route path="accounts" account element={<Accounts />} />
+          <Route path="accounts" element={<Accounts />} />
+          <Route path=":category/:id" element={<ProductDetails />} />
         </Route>
         <Route path="/unauthorize" element={<UnAuthorize />} />
         <Route path="*" element={<NotFound />} />

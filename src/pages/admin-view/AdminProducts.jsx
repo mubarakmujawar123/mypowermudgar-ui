@@ -25,7 +25,7 @@ const initialAddProductFormData = {
   title: "",
   description: "",
   category: "",
-  woodType: "",
+  woodType: [],
   height: "",
   weight: "",
   price: "",

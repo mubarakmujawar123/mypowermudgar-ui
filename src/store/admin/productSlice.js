@@ -9,7 +9,7 @@ export const fetchAllProducts = createAsyncThunk(
   "/products/fetchAllProducts",
   async () => {
     try {
-      const response = await APIConfig.get("admin/products/fetch-products");
+      const response = await APIConfig.get("/admin/products/fetch-products");
       return response?.data;
     } catch (error) {
       return error?.response?.data;
@@ -22,7 +22,7 @@ export const addNewProduct = createAsyncThunk(
   async (formData) => {
     try {
       const response = await APIConfig.post(
-        "admin/products/add-product",
+        "/admin/products/add-product",
         formData
       );
       return response?.data;
@@ -37,7 +37,7 @@ export const editProduct = createAsyncThunk(
   async ({ id, formData }) => {
     try {
       const response = await APIConfig.put(
-        `admin/products/edit-product/${id}`,
+        `/admin/products/edit-product/${id}`,
         formData
       );
       return response?.data;
@@ -52,7 +52,7 @@ export const deleteProduct = createAsyncThunk(
   async (id) => {
     try {
       const response = await APIConfig.delete(
-        `admin/products/delete-product/${id}`
+        `/admin/products/delete-product/${id}`
       );
       return response?.data;
     } catch (error) {

@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
+import { optionsMap } from "@/config/config";
 import { Button } from "../ui/button";
+import Counter from "../ui/counter";
 import { Input } from "../ui/input";
+import { MultiSelect } from "../ui/multiSelect";
 import {
   Select,
   SelectContent,
@@ -12,7 +15,9 @@ import { Textarea } from "../ui/textarea";
 const elementTypes = {
   INPUT: "input",
   SELECT: "select",
+  MULTISELECT: "multiselect",
   TEXTAREA: "textarea",
+  COUNTER: "counter",
 };
 
 const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
@@ -49,7 +54,7 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
           value={value}
         >
           <SelectTrigger>
-            <SelectValue placeholder={controlItem.label} />
+            <SelectValue placeholder={`Select ${controlItem.label}`} />
           </SelectTrigger>
           <SelectContent>
             {controlItem.options?.length > 0
@@ -61,6 +66,24 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
               : null}
           </SelectContent>
         </Select>
+      );
+
+      break;
+    case elementTypes.MULTISELECT:
+      element = (
+        <MultiSelect
+          options={controlItem.options}
+          onValueChange={(options) => {
+            setFormData({
+              ...formData,
+              [controlItem.name]: options,
+            });
+          }}
+          defaultValue={value}
+          placeholder={`Select ${optionsMap[controlItem.name]}`}
+          variant="inverted"
+          hidden={controlItem.hidden}
+        />
       );
 
       break;
@@ -77,6 +100,17 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
               [controlItem.name]: event.target.value,
             });
           }}
+        />
+      );
+
+      break;
+    case elementTypes.COUNTER:
+      element = (
+        <Counter
+          name={controlItem.name}
+          id={controlItem.name}
+          data={formData}
+          setData={setFormData}
         />
       );
 
@@ -111,22 +145,25 @@ const CommonForm = ({
   buttonText,
   isFormValid,
 }) => {
-  console.log("formdata", formData);
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-3">
         {formControls.map((item) => (
           <div className="grid w-full gap-1.5" key={item.name}>
-            <label>{item.label}</label>
-            {renderElementUsingType({
-              controlItem: item,
-              formData: formData,
-              setFormData: setFormData,
-            })}
+            {item.hidden ? null : (
+              <>
+                <label>{item.label}</label>
+                {renderElementUsingType({
+                  controlItem: item,
+                  formData: formData,
+                  setFormData: setFormData,
+                })}
+              </>
+            )}
           </div>
         ))}
       </div>
-      <Button disabled={!isFormValid} type="submit" className="mt-2 w-full">
+      <Button disabled={!isFormValid} type="submit" className="mt-5 w-full">
         {buttonText || "Submit"}
       </Button>
     </form>
