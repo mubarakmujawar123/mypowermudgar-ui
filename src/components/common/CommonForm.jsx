@@ -152,7 +152,14 @@ const CommonForm = ({
           <div className="grid w-full gap-1.5" key={item.name}>
             {item.hidden ? null : (
               <>
-                <label>{item.label}</label>
+                <label>
+                  {item.label}{" "}
+                  {item.isMandatory ? (
+                    <span className="text-red-600">*</span>
+                  ) : (
+                    ""
+                  )}
+                </label>
                 {renderElementUsingType({
                   controlItem: item,
                   formData: formData,

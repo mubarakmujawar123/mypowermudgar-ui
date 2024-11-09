@@ -18,8 +18,9 @@ import UnAuthorize from "./pages/UnAuthorize";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice/authSlice";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ProductDetails } from "./pages/shopping-view/ProductDetails";
+import Loader from "./components/common/Loader";
+import Home from "./pages/auth/Home";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -30,10 +31,11 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
-  if (isLoading) return <Skeleton className="w-[800px] h-[600px]" />;
+  if (isLoading) return <Loader />;
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route
           path="/auth"
           element={
@@ -60,20 +62,37 @@ function App() {
         <Route
           path="/shop"
           element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <ShoppingLayout />
-            </CheckAuth>
+            // <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <ShoppingLayout />
+            // </CheckAuth>
           }
         >
           <Route path="home" element={<ShoppingHome />} />
           <Route path="listing" element={<Listing />} />
-          <Route path="checkout" element={<Checkout />} />
-          <Route path="accounts" element={<Accounts />} />
+
+          <Route
+            path="checkout"
+            element={
+              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                <Checkout />
+              </CheckAuth>
+            }
+          />
+
+          <Route
+            path="account"
+            element={
+              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                <Accounts />
+              </CheckAuth>
+            }
+          />
           <Route path=":category/:id" element={<ProductDetails />} />
         </Route>
         <Route path="/unauthorize" element={<UnAuthorize />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <footer className="mt-5 bg-black text-white h-16">Footer section</footer>
     </div>
   );
 }

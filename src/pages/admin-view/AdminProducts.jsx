@@ -141,7 +141,7 @@ const AdminProducts = () => {
               setFormData={setFormData}
               onSubmit={onSubmit}
               formControls={addProductFormElements}
-              isFormValid={isFormValid(formData)}
+              isFormValid={isFormValid(formData, addProductFormElements)}
             />
           </div>
         </SheetContent>

@@ -1,25 +1,24 @@
 import ShoppingProductTile from "@/components/shopping-view/ShoppingProductTile";
 import { fetchFilteredProducts } from "@/store/shop/shoppingProductSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const Listing = () => {
   const { productList } = useSelector((state) => state.shopProduct);
   const dispatch = useDispatch();
-  const [filters, setFilters] = useState({});
-  console.log("productList", productList);
-  const location = useLocation();
+  // const [filters, setFilters] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const categorySearchParam = searchParams.get("category");
 
-  useEffect(() => {
-    setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
-  }, [categorySearchParam]);
+  // useEffect(() => {
+  //   setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+  // }, [categorySearchParam]);
 
   useEffect(() => {
+    const filters = JSON.parse(sessionStorage.getItem("filters")) || {};
     dispatch(fetchFilteredProducts({ filterParams: filters }));
-  }, [dispatch, filters]);
+  }, [dispatch, categorySearchParam]);
   return (
     <>
       {productList ? (

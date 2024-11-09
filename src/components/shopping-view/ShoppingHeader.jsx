@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { shoppingViewHeaderMenuItems } from "@/config/config";
 import { Label } from "../ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +21,8 @@ import {
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/store/auth-slice/authSlice";
+import UserCartWrapper from "./UserCartWrapper";
+import { fetchCartItems } from "@/store/shop/shoppingCartSlice";
 
 const MenuItems = () => {
   const navigate = useNavigate();
@@ -29,7 +31,9 @@ const MenuItems = () => {
   const handleNavigate = (getCurrentMenuItem) => {
     sessionStorage.removeItem("filters");
     const currentFilter =
-      getCurrentMenuItem.id !== "home" && getCurrentMenuItem.id !== "search"
+      getCurrentMenuItem.id !== "home" &&
+      getCurrentMenuItem.id !== "search" &&
+      getCurrentMenuItem.id !== "all-products"
         ? {
             category: [getCurrentMenuItem.id],
           }
@@ -62,13 +66,32 @@ const MenuItems = () => {
 
 const HeaderRightContent = () => {
   const [openCartSheet, setOpenCartSheet] = useState(false);
-  const { user } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shopCart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logoutUser());
   };
+
+  useEffect(() => {
+    if (user?.id) dispatch(fetchCartItems(user?.id));
+  }, [dispatch, user?.id]);
+
+  if (!isAuthenticated && !user) {
+    return (
+      <div className="mt-6 lg:mt-0 md:mt-0">
+        <Button
+          onClick={() => navigate("/auth/login")}
+          size="icon"
+          className="pl-10 pr-10"
+        >
+          Login
+        </Button>
+      </div>
+    );
+  }
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
@@ -82,14 +105,14 @@ const HeaderRightContent = () => {
           <span className="absolute top=[-5px] right-[2px] font-bold text-sm"></span>
           <span className="sr-only"> User Cart</span>
         </Button>
-        {/* <UserCartWrapper
+        <UserCartWrapper
           setOpenCartSheet={setOpenCartSheet}
           cartItems={
-            cartItems && cartItems.items && cartItems.items.lenght > 0
+            cartItems && cartItems.items && cartItems.items.length > 0
               ? cartItems.items
               : []
           }
-        /> */}
+        />
       </Sheet>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -99,7 +122,7 @@ const HeaderRightContent = () => {
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" className="w-56">
+        <DropdownMenuContent side="bottom" className="w-56">
           <DropdownMenuLabel> {user?.userName}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -124,7 +147,7 @@ const ShoppingHeader = () => {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
-        <Link to="/shop/home" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <HousePlug className="h-6 w-6" />
           <span className="font-bold">MyPowerMudgar</span>
         </Link>

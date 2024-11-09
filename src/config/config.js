@@ -5,6 +5,7 @@ export const registerFormControls = [
     placeholder: "Enter your user name",
     componentType: "input",
     type: "text",
+    isMandatory: true,
   },
   {
     name: "email",
@@ -12,6 +13,7 @@ export const registerFormControls = [
     placeholder: "Enter your email",
     componentType: "input",
     type: "email",
+    isMandatory: true,
   },
   {
     name: "password",
@@ -19,6 +21,7 @@ export const registerFormControls = [
     placeholder: "Enter your password",
     componentType: "input",
     type: "password",
+    isMandatory: true,
   },
 ];
 export const loginFormControls = [
@@ -28,6 +31,7 @@ export const loginFormControls = [
     placeholder: "Enter your email",
     componentType: "input",
     type: "email",
+    isMandatory: true,
   },
   {
     name: "password",
@@ -35,6 +39,7 @@ export const loginFormControls = [
     placeholder: "Enter your password",
     componentType: "input",
     type: "password",
+    isMandatory: true,
   },
 ];
 
@@ -45,12 +50,14 @@ export const addProductFormElements = [
     componentType: "input",
     type: "text",
     placeholder: "Enter product title",
+    isMandatory: true,
   },
   {
     label: "Description",
     name: "description",
     componentType: "textarea",
     placeholder: "Enter product description",
+    isMandatory: true,
   },
   {
     label: "Category",
@@ -63,6 +70,7 @@ export const addProductFormElements = [
       { id: "samtola", label: "Samtola" },
       { id: "comboKit", label: "Combo Kit" },
     ],
+    isMandatory: true,
   },
   {
     label: "Wood Type",
@@ -72,6 +80,7 @@ export const addProductFormElements = [
       { id: "babool", label: "Babool (Acacia)", value: "babool" },
       { id: "sagwan", label: "Sagwan (Teak Wood)", value: "sagwan" },
     ],
+    isMandatory: true,
   },
   {
     label: "Height",
@@ -82,6 +91,7 @@ export const addProductFormElements = [
       { id: "1-2", label: "1-2", value: "1-2" },
       { id: "2-3", label: "2-3", value: "2-3" },
     ],
+    isMandatory: true,
   },
   {
     label: "Weight",
@@ -92,20 +102,23 @@ export const addProductFormElements = [
       { id: "1-2", label: "1-2", value: "1-2" },
       { id: "2-3", label: "2-3", value: "2-3" },
     ],
+    isMandatory: true,
   },
   {
-    label: "Price",
+    label: "Price (per kg)",
     name: "price",
     componentType: "input",
     type: "number",
     placeholder: "Enter product price",
+    isMandatory: true,
   },
   {
-    label: "Sale Price",
+    label: "Sale Price (per kg)",
     name: "salePrice",
     componentType: "input",
     type: "number",
     placeholder: "Enter sale price",
+    isMandatory: true,
   },
   {
     label: "Total Stock",
@@ -113,6 +126,7 @@ export const addProductFormElements = [
     componentType: "input",
     type: "number",
     placeholder: "Enter total stock",
+    isMandatory: true,
   },
 ];
 export const addProducToCartElements = [
@@ -125,6 +139,7 @@ export const addProducToCartElements = [
       { id: "babool", label: "Babool (Acacia)" },
       { id: "sagwan", label: "Sagwan (Teak Wood)" },
     ],
+    isMandatory: true,
   },
   {
     label: "Height (feet)",
@@ -132,6 +147,7 @@ export const addProducToCartElements = [
     componentType: "select",
     hidden: false,
     options: [],
+    isMandatory: true,
   },
   {
     label: "Weight (kg)",
@@ -139,6 +155,7 @@ export const addProducToCartElements = [
     componentType: "select",
     hidden: false,
     options: [],
+    isMandatory: true,
   },
 
   {
@@ -146,11 +163,13 @@ export const addProducToCartElements = [
     name: "quantity",
     hidden: false,
     componentType: "counter",
+    isMandatory: true,
   },
 ];
 
 export const shoppingViewHeaderMenuItems = [
-  { id: "home", label: "Home", path: "/shop/listing" },
+  { id: "home", label: "Home", path: "/" },
+  { id: "all-products", label: "All Products", path: "/shop/listing" },
   { id: "mudgar", label: "Mudgar", path: "/shop/listing" },
   { id: "gada", label: "Gada", path: "/shop/listing" },
   { id: "pushUpBoard", label: "Push Up Board", path: "/shop/listing" },
@@ -159,14 +178,12 @@ export const shoppingViewHeaderMenuItems = [
   { id: "search", label: "Search", path: "/shop/search" },
 ];
 
-export const categoryOptionsMap = {
+export const optionsMap = {
   mudgar: "Mudgar",
   gada: "Gada",
   pushUpBoard: "Push Up Board",
   samtola: "Samtola",
   comboKit: "Combo Kit",
-};
-export const optionsMap = {
   babool: "Babool (Acacia)",
   sagwan: "Sagwan (Teak Wood)",
   woodType: "Wood Type",
@@ -175,3 +192,64 @@ export const optionsMap = {
   "1-2": "1-2",
   "2-3": "2-3",
 };
+
+export const addressFormControls = [
+  {
+    label: "Phone",
+    name: "phone",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your phone number",
+    isMandatory: true,
+  },
+  {
+    label: "Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your address",
+    isMandatory: true,
+  },
+  {
+    label: "Pincode",
+    name: "pincode",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your pincode",
+    isMandatory: true,
+  },
+  {
+    label: "City",
+    name: "city",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your city",
+    isMandatory: true,
+  },
+  {
+    label: "State",
+    name: "state",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your state/region",
+    isMandatory: true,
+  },
+  {
+    label: "Country",
+    name: "country",
+    componentType: "select",
+    options: [
+      { id: "india", label: "India" },
+      { id: "unitedState", label: "United State" },
+    ],
+    placeholder: "Enter your state/region",
+    isMandatory: true,
+  },
+  {
+    label: "Notes",
+    name: "notes",
+    componentType: "textarea",
+    placeholder: "Enter any additional notes",
+    isMandatory: false,
+  },
+];

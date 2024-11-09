@@ -2,7 +2,7 @@
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { categoryOptionsMap } from "@/config/config";
+import { optionsMap } from "@/config/config";
 import { useNavigate } from "react-router-dom";
 
 const ShoppingProductTile = ({ product }) => {
@@ -34,7 +34,7 @@ const ShoppingProductTile = ({ product }) => {
           <h2 className="text-xl font-bold mb-2 mt-2">{product?.title}</h2>
           <div className="flex justify-between items-center mb-2">
             <span className="text-[16px] text-muted-foreground">
-              {categoryOptionsMap[product?.category]}
+              {optionsMap[product?.category]}
             </span>
           </div>
           <div className="flex justify-between items-center mb-2">

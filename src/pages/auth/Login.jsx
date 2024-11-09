@@ -19,13 +19,13 @@ const Login = () => {
     event.preventDefault();
     dispatch(loginUser(formData)).then((data) => {
       console.log(data);
-      if (data.payload.success) {
+      if (data?.payload?.success) {
         toast({
           title: data.payload.message,
         });
       } else {
         toast({
-          title: data.payload.message,
+          title: data?.payload?.message || "Somtehing went wrong!",
           variant: "destructive",
         });
       }
@@ -54,7 +54,7 @@ const Login = () => {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
-        isFormValid={isFormValid(formData)}
+        isFormValid={isFormValid(formData, loginFormControls)}
       />
     </div>
   );

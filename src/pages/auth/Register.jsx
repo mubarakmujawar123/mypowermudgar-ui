@@ -57,7 +57,7 @@ const Register = () => {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
-        isFormValid={isFormValid(formData)}
+        isFormValid={isFormValid(formData, registerFormControls)}
       />
     </div>
   );
