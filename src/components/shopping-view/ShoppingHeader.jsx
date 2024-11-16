@@ -116,7 +116,7 @@ const HeaderRightContent = () => {
       </Sheet>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
+          <Avatar className="bg-black cursor-pointer">
             <AvatarFallback className="bg-black text-white font-extrabold">
               {user?.userName[0].toUpperCase()}
             </AvatarFallback>
@@ -155,7 +155,7 @@ const ShoppingHeader = () => {
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
               <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle header mewnu</span>
+              <span className="sr-only">Toggle header menu</span>
             </Button>
           </SheetTrigger>
           <SheetContent className="w-full max-w-xs" side="left">

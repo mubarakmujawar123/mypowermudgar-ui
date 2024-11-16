@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import accImg from "../../assets/account.jpg";
 import Address from "@/components/shopping-view/Address";
+import ShoppingOrders from "@/components/shopping-view/ShoppingOrders";
 
 const Accounts = () => {
   return (
@@ -18,7 +19,9 @@ const Accounts = () => {
               <TabsTrigger value="orders">Orders</TabsTrigger>
               <TabsTrigger value="address">Address</TabsTrigger>
             </TabsList>
-            <TabsContent value="orders">{/* <ShoppingOrders/> */}</TabsContent>
+            <TabsContent value="orders">
+              <ShoppingOrders />
+            </TabsContent>
             <TabsContent value="address">
               <Address />
             </TabsContent>

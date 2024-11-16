@@ -6,7 +6,6 @@ import AuthLayout from "./components/auth/AuthLayout";
 import AdminLayout from "./components/admin-view/AdminLayout";
 import AdminDashboard from "./pages/admin-view/AdminDashboard";
 import AdminProducts from "./pages/admin-view/AdminProducts";
-import AdminOrders from "./pages/admin-view/adminOrders";
 import ShoppingLayout from "./components/shopping-view/ShoppingLayout";
 import NotFound from "./pages/NotFound";
 import ShoppingHome from "./pages/shopping-view/ShoppingHome";
@@ -21,6 +20,9 @@ import { checkAuth } from "./store/auth-slice/authSlice";
 import { ProductDetails } from "./pages/shopping-view/ProductDetails";
 import Loader from "./components/common/Loader";
 import Home from "./pages/auth/Home";
+import AdminOrders from "./components/admin-view/AdminOrders";
+import PaymentCancle from "./pages/shopping-view/PaymentCancle";
+import PaymentCapture from "./pages/shopping-view/PaymentCapture";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -88,6 +90,22 @@ function App() {
             }
           />
           <Route path=":category/:id" element={<ProductDetails />} />
+          <Route
+            path="capture-payment"
+            element={
+              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                <PaymentCapture />
+              </CheckAuth>
+            }
+          />
+          <Route
+            path="cancel-payment"
+            element={
+              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                <PaymentCancle />
+              </CheckAuth>
+            }
+          />
         </Route>
         <Route path="/unauthorize" element={<UnAuthorize />} />
         <Route path="*" element={<NotFound />} />

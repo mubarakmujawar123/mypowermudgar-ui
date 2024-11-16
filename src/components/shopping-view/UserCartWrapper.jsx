@@ -3,23 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import UserCartItemsContent from "./UserCartItemsContent";
+import { calculateTotalCartPrice } from "@/config/utils";
 
 const UserCartWrapper = ({ cartItems, setOpenCartSheet }) => {
   const navigate = useNavigate();
-  const totalCartAmount =
-    cartItems && cartItems.length > 0
-      ? cartItems.reduce(
-          (sum, currentItem) =>
-            sum +
-            (currentItem?.salePrice > 0
-              ? currentItem?.salePrice
-              : currentItem?.price) *
-              currentItem?.quantity,
-          0
-        )
-      : 0;
+  const totalCartAmount = calculateTotalCartPrice(cartItems);
   return (
-    <SheetContent className="sm:max-w-md lg:max-w-lg">
+    <SheetContent className="sm:max-w-md lg:max-w-lg overflow-auto">
       <SheetHeader>
         <SheetTitle>Your Cart</SheetTitle>
       </SheetHeader>
@@ -44,6 +34,7 @@ const UserCartWrapper = ({ cartItems, setOpenCartSheet }) => {
           navigate("/shop/checkout");
           setOpenCartSheet(false);
         }}
+        disabled={cartItems.length === 0 ? true : false}
         className="w-full mt-6"
       >
         Checkout

@@ -11,3 +11,17 @@ export const isFormValid = (formData, formFields = null) => {
     .map((key) => _formData[key] !== "")
     .every((item) => item);
 };
+
+export const calculateTotalCartPrice = (cartItems) => {
+  return cartItems && cartItems.length > 0
+    ? cartItems.reduce(
+        (sum, currentItem) =>
+          sum +
+          (currentItem?.salePrice > 0
+            ? currentItem?.salePrice
+            : currentItem?.price) *
+            currentItem?.quantity,
+        0
+      )
+    : 0;
+};

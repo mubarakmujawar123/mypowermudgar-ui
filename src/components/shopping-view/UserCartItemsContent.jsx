@@ -51,7 +51,7 @@ const UserCartItemsContent = ({ cartItem }) => {
         className="w-20 h-20 rounded object-cover"
       />
       <div className="flex-1">
-        <h4 className="font-light italic">{cartItem?.category}</h4>
+        <h4 className="font-light italic">{optionsMap[cartItem?.category]}</h4>
         <h3 className="font-extrabold">{cartItem?.title}</h3>
         <div className="gap-2 mt-1">
           {cartItem?.productDescription

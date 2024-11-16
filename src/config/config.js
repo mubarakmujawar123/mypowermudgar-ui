@@ -252,4 +252,27 @@ export const addressFormControls = [
     placeholder: "Enter any additional notes",
     isMandatory: false,
   },
+  // {
+  //   label: "Set as default address",
+  //   name: "isDefault",
+  //   type: "checkbox",
+  //   componentType: "checkbox",
+  //   isMandatory: false,
+  // },
+];
+
+export const adminOrderStatusControls = [
+  {
+    label: "Order Status",
+    name: "status",
+    componentType: "select",
+    isMandatory: true,
+    options: [
+      { id: "pending", label: "Pending" },
+      { id: "inProcess", label: "In Process" },
+      { id: "inShipping", label: "In Shipping" },
+      { id: "delivered", label: "Delivered" },
+      { id: "rejected", label: "Rejected" },
+    ],
+  },
 ];

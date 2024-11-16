@@ -12,12 +12,14 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
+import { Checkbox } from "../ui/checkbox";
 const elementTypes = {
   INPUT: "input",
   SELECT: "select",
   MULTISELECT: "multiselect",
   TEXTAREA: "textarea",
   COUNTER: "counter",
+  CHECKBOX: "checkbox",
 };
 
 const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
@@ -111,6 +113,24 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
           id={controlItem.name}
           data={formData}
           setData={setFormData}
+        />
+      );
+
+      break;
+    case elementTypes.CHECKBOX:
+      element = (
+        <Checkbox
+          name={controlItem.name}
+          id={controlItem.name}
+          type={controlItem.type}
+          checked={controlItem.isDefault}
+          onCheckedChange={(checked) => {
+            console.log("Event", checked);
+            setFormData({
+              ...formData,
+              [controlItem.name]: checked,
+            });
+          }}
         />
       );
 
