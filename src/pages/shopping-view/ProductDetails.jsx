@@ -2,8 +2,12 @@
 import CommonForm from "@/components/common/CommonForm";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { addProducToCartElements, optionsMap } from "@/config/config";
-import { isFormValid } from "@/config/utils";
+import { addProducToCartElements } from "@/config/config";
+import {
+  calculateItemPrice,
+  getConstantValue,
+  isFormValid,
+} from "@/config/utils";
 import { useToast } from "@/hooks/use-toast";
 import { addToCart, fetchCartItems } from "@/store/shop/shoppingCartSlice";
 import { ArrowLeft } from "lucide-react";
@@ -28,6 +32,7 @@ export const ProductDetails = () => {
   const [formData, setFormData] = useState(initialAddProductToCartData);
   const [formElements, setFormElements] = useState(addProducToCartElements);
   const { toast } = useToast();
+
   const onSubmit = (event) => {
     event.preventDefault();
     console.log("formData", formData);
@@ -36,11 +41,16 @@ export const ProductDetails = () => {
     if (!user?.id) {
       return navigate("/auth/login");
     }
+
     dispatch(
       addToCart({
         userId: user?.id,
         productId: selectedProduct?._id,
         quantity: quantity,
+        basePrice:
+          selectedProduct?.salePrice > 0
+            ? selectedProduct?.salePrice
+            : selectedProduct?.price,
         productDescription: restFormData,
       })
     ).then((data) => {
@@ -67,7 +77,7 @@ export const ProductDetails = () => {
             element.hidden = false;
             element.options = objItem.map((ele) => ({
               id: ele,
-              label: optionsMap[ele],
+              label: getConstantValue(ele),
             }));
           }
         }
@@ -85,7 +95,8 @@ export const ProductDetails = () => {
     setFormData(updatedProductToCartData);
   }, [selectedProduct, location]);
 
-  //   console.log("location", selectedProduct);
+  console.log("formData", formData);
+
   return (
     <div className="w-9/12 mx-auto flex justify-center">
       <Button
@@ -107,7 +118,7 @@ export const ProductDetails = () => {
       </div>
       <div className="m-5 w-6/12">
         <h3 className="text-xl italic font-light">
-          {optionsMap[selectedProduct?.category]}
+          {getConstantValue(selectedProduct?.category)}
         </h3>
         <h2 className="font-semibold text-3xl">{selectedProduct?.title}</h2>
         {selectedProduct?.salePrice > 0 ? (
@@ -119,7 +130,13 @@ export const ProductDetails = () => {
           {selectedProduct?.salePrice > 0 ? (
             <span className="text-lg">
               <div>Sale Price</div>
-              <div>{selectedProduct?.salePrice}</div>
+              <div>
+                {calculateItemPrice(
+                  selectedProduct?.salePrice,
+                  formData.quantity,
+                  formData
+                )}
+              </div>
             </span>
           ) : null}
           <span className="text-lg text-primary">
@@ -129,7 +146,11 @@ export const ProductDetails = () => {
                 selectedProduct?.salePrice > 0 ? "line-through" : ""
               }`}
             >
-              {selectedProduct?.price}
+              {calculateItemPrice(
+                selectedProduct?.price,
+                formData.quantity,
+                formData
+              )}
             </div>
           </span>
         </div>

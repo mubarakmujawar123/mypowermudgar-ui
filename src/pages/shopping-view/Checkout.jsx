@@ -1,12 +1,12 @@
 import Address from "@/components/shopping-view/Address";
 import img from "../../assets/checkout.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import UserCartItemsContent from "@/components/shopping-view/UserCartItemsContent";
-import { calculateTotalCartPrice } from "@/config/utils";
+import { calculateShippingCost, calculateTotalCartPrice } from "@/config/utils";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { createNewOrder } from "@/store/shop/shoppingOrderSlice";
+import UserCartItems from "@/components/shopping-view/UserCartItems";
 
 const Checkout = () => {
   const [isPaymentStart, setIsPaymentStart] = useState(false);
@@ -18,6 +18,7 @@ const Checkout = () => {
   const dispatch = useDispatch();
 
   const totalCartAmount = calculateTotalCartPrice(cartItems?.items);
+  const shippingCost = calculateShippingCost(cartItems?.items);
   const handleInitiatePaypalPayment = () => {
     if (cartItems.length === 0) {
       toast({
@@ -61,6 +62,7 @@ const Checkout = () => {
       paymentMethod: "Paypal",
       paymentStatus: "PENDING",
       totalAmount: totalCartAmount,
+      shippingCost: shippingCost,
       orderDate: new Date(),
       orderUpdateDate: new Date(),
       paymentId: "",
@@ -72,6 +74,7 @@ const Checkout = () => {
       if (data?.payload?.success) {
         setIsPaymentStart(true);
       } else {
+        toast({ title: data?.payload?.message, variant: "destructive" });
         setIsPaymentStart(false);
       }
     });
@@ -95,23 +98,38 @@ const Checkout = () => {
           setCurrentSelectedAddress={setCurrentSelectedAddress}
         />
         <div className="flex flex-col gap-4">
-          {cartItems && cartItems?.items?.length > 0
+          {/* {cartItems && cartItems?.items?.length > 0
             ? cartItems?.items?.map((item) => (
                 <UserCartItemsContent key={item._id} cartItem={item} />
               ))
             : null}
           <div className="mt-8 space-y-4">
             <div className="flex justify-between">
-              <span className="font-bold">Total</span>
+              <span className="font-bold">Items Total </span>
               <span className="font-bold">${totalCartAmount}</span>
             </div>
-          </div>
+            <div className="flex justify-between">
+              <span className="font-bold">Shipping Charges</span>
+              <span className="font-bold">${calculateShippingCost()}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-bold">Total Cart Price</span>
+              <span className="font-bold">
+                ${totalCartAmount + calculateShippingCost()}
+              </span>
+            </div>
+          </div> */}
+          <UserCartItems cartItems={cartItems.items} />
           <div className="mt-4 w-full">
             <Button
               onClick={handleInitiatePaypalPayment}
-              className="w-full"
+              className={`w-full ${
+                !cartItems || cartItems?.items?.length === 0
+                  ? "hidden"
+                  : "block"
+              }`}
               disabled={
-                !cartItems || cartItems?.items.length === 0 ? true : false
+                !cartItems || cartItems?.items?.length === 0 ? true : false
               }
             >
               {isPaymentStart

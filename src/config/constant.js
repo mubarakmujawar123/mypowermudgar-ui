@@ -1,0 +1,16 @@
+export const constantMap = {
+  mudgar: "Mudgar",
+  gada: "Gada",
+  pushUpBoard: "Push Up Board",
+  samtola: "Samtola",
+  comboKit: "Combo Kit",
+  babool: "Babool (Acacia)",
+  sagwan: "Sagwan (Teak Wood)",
+  woodType: "Wood Type",
+  weight: "Weight",
+  height: "Height",
+  "1-2": "1-2",
+  "2-3": "2-3",
+  INPROGRESS: "IN PROGRESS",
+  INSHIPPING: "IN SHIPPING",
+};

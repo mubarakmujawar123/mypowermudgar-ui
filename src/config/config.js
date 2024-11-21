@@ -175,23 +175,8 @@ export const shoppingViewHeaderMenuItems = [
   { id: "pushUpBoard", label: "Push Up Board", path: "/shop/listing" },
   { id: "samtola", label: "Samtola", path: "/shop/listing" },
   { id: "comboKit", label: "Combo Kit", path: "/shop/listing" },
-  { id: "search", label: "Search", path: "/shop/search" },
+  // { id: "search", label: "Search", path: "/shop/search" },
 ];
-
-export const optionsMap = {
-  mudgar: "Mudgar",
-  gada: "Gada",
-  pushUpBoard: "Push Up Board",
-  samtola: "Samtola",
-  comboKit: "Combo Kit",
-  babool: "Babool (Acacia)",
-  sagwan: "Sagwan (Teak Wood)",
-  woodType: "Wood Type",
-  weight: "Weight",
-  height: "Height",
-  "1-2": "1-2",
-  "2-3": "2-3",
-};
 
 export const addressFormControls = [
   {
@@ -264,15 +249,16 @@ export const addressFormControls = [
 export const adminOrderStatusControls = [
   {
     label: "Order Status",
-    name: "status",
+    name: "orderStatus",
     componentType: "select",
     isMandatory: true,
     options: [
-      { id: "pending", label: "Pending" },
-      { id: "inProcess", label: "In Process" },
-      { id: "inShipping", label: "In Shipping" },
-      { id: "delivered", label: "Delivered" },
-      { id: "rejected", label: "Rejected" },
+      { id: "CONFIRMED", label: "CONFIRMED", disabled: true },
+      { id: "PENDING", label: "PENDING" },
+      { id: "INPROGRESS", label: "IN PROGRESS" },
+      { id: "INSHIPPING", label: "IN SHIPPING" },
+      { id: "DELIVERED", label: "DELIVERED" },
+      { id: "REJECTED", label: "REJECTED" },
     ],
   },
 ];

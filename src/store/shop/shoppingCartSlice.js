@@ -8,12 +8,13 @@ const initialState = {
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
-  async ({ userId, productId, quantity, productDescription }) => {
+  async ({ userId, productId, quantity, basePrice, productDescription }) => {
     try {
       const response = await APIConfig.post(`/shop/cart/add`, {
         userId,
         productId,
         quantity,
+        basePrice,
         productDescription,
       });
       return response?.data;

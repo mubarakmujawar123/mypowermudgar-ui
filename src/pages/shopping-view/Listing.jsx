@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 const Listing = () => {
   const { productList } = useSelector((state) => state.shopProduct);
   const dispatch = useDispatch();
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const categorySearchParam = searchParams.get("category");
 
@@ -16,7 +16,7 @@ const Listing = () => {
   }, [categorySearchParam]);
 
   useEffect(() => {
-    dispatch(fetchFilteredProducts({ filterParams: filters }));
+    if (filters) dispatch(fetchFilteredProducts({ filterParams: filters }));
   }, [dispatch, filters]);
   return (
     <>

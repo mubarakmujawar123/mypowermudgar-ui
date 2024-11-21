@@ -20,6 +20,7 @@ import {
 
 const ShoppingOrders = () => {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { orderList, orderDetails } = useSelector((state) => state.shopOrder);
   console.log("orderDetails 1", orderDetails);
@@ -49,6 +50,7 @@ const ShoppingOrders = () => {
               <TableHead>Order Date</TableHead>
               <TableHead>Order Status</TableHead>
               <TableHead>Order Price</TableHead>
+              <TableHead>Shipping Charges</TableHead>
               {/* <TableHead>Payment Status</TableHead> */}
               <TableHead>
                 <span className="sr-only">Details </span>
@@ -73,24 +75,17 @@ const ShoppingOrders = () => {
                     {orderItem?.orderStatus}
                   </TableCell>
                   <TableCell>{orderItem?.totalAmount}</TableCell>
+                  <TableCell>{orderItem?.shippingCost}</TableCell>
                   {/* <TableCell>{orderItem?.paymentStatus}</TableCell> */}
                   <TableCell className="flex justify-end">
-                    <Dialog
-                      open={openDetailsDialog}
-                      onOpenChange={() => {
-                        dispatch(resetOrderDetails());
-                        setOpenDetailsDialog(false);
+                    <Button
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        handleFetchOrderDetails(orderItem?._id);
                       }}
                     >
-                      <Button
-                        onClick={() => {
-                          handleFetchOrderDetails(orderItem?._id);
-                        }}
-                      >
-                        View Dertails
-                      </Button>
-                      <ShoppingOrderDetails orderDetails={orderDetails} />
-                    </Dialog>
+                      View Details
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))
@@ -99,6 +94,17 @@ const ShoppingOrders = () => {
             )}
           </TableBody>
         </Table>
+        {isModalOpen ? (
+          <Dialog
+            open={openDetailsDialog}
+            onOpenChange={() => {
+              dispatch(resetOrderDetails());
+              setOpenDetailsDialog(false);
+            }}
+          >
+            <ShoppingOrderDetails orderDetails={orderDetails} />
+          </Dialog>
+        ) : null}
       </CardContent>
     </Card>
   );

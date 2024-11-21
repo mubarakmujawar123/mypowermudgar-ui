@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   Table,
@@ -11,12 +11,30 @@ import {
 import { Button } from "../ui/button";
 import { Dialog } from "../ui/dialog";
 import AdminOrderDetailsView from "./AdminOrderDetailsView";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getOrderDetailsForAdmin,
+  getOrdersOfAllUsers,
+  resetAdminOrderDetails,
+} from "@/store/admin/orderSlice";
+import { getConstantValue } from "@/config/utils";
 
 const AdminOrders = () => {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
-  const handleFetchOrderDetails = () => {
-    setOpenDetailsDialog(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { orderList, orderDetails } = useSelector((state) => state.adminOrder);
+  const handleFetchOrderDetails = (getId) => {
+    dispatch(getOrderDetailsForAdmin(getId));
   };
+
+  useEffect(() => {
+    dispatch(getOrdersOfAllUsers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (orderDetails !== null) setOpenDetailsDialog(true);
+  }, [orderDetails]);
   return (
     <Card>
       <CardHeader>
@@ -30,33 +48,60 @@ const AdminOrders = () => {
               <TableHead>Order Date</TableHead>
               <TableHead>Order Status</TableHead>
               <TableHead>Order Price</TableHead>
+              <TableHead>Shipping Charges</TableHead>
               <TableHead>
                 <span className="sr-only">Details </span>
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>123</TableCell>
-              <TableCell>11/9/2024</TableCell>
-              <TableCell>Pending</TableCell>
-              <TableCell>$ 110</TableCell>
-              <TableCell className="flex justify-end">
-                <Dialog
-                  open={openDetailsDialog}
-                  onOpenChange={() => {
-                    setOpenDetailsDialog(false);
-                  }}
-                >
-                  <Button onClick={() => handleFetchOrderDetails()}>
-                    View Dertails
-                  </Button>
-                  <AdminOrderDetailsView />
-                </Dialog>
-              </TableCell>
-            </TableRow>
+            {orderList && orderList.length > 0 ? (
+              orderList.map((orderItem) => (
+                <TableRow key={orderItem?._id}>
+                  <TableCell>{orderItem?._id}</TableCell>
+                  <TableCell>{orderItem?.orderDate.split("T")[0]}</TableCell>
+                  <TableCell
+                    className={`p-2 ${
+                      orderItem?.orderStatus === "CONFIRMED"
+                        ? "text-green-600"
+                        : orderItem?.orderStatus === "REJECTED"
+                        ? "text-red-600"
+                        : "text-black"
+                    }`}
+                  >
+                    {getConstantValue(orderItem?.orderStatus)}
+                  </TableCell>
+                  <TableCell>{orderItem?.totalAmount}</TableCell>
+                  <TableCell>{orderItem?.shippingCost}</TableCell>
+                  {/* <TableCell>{orderItem?.paymentStatus}</TableCell> */}
+                  <TableCell className="flex justify-end">
+                    <Button
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        handleFetchOrderDetails(orderItem?._id);
+                      }}
+                    >
+                      View Details
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <>No orders found!</>
+            )}
           </TableBody>
         </Table>
+        {isModalOpen ? (
+          <Dialog
+            open={openDetailsDialog}
+            onOpenChange={() => {
+              dispatch(resetAdminOrderDetails());
+              setOpenDetailsDialog(false);
+            }}
+          >
+            <AdminOrderDetailsView orderDetails={orderDetails} />
+          </Dialog>
+        ) : null}
       </CardContent>
     </Card>
   );

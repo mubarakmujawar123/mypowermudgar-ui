@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { optionsMap } from "@/config/config";
 import { Button } from "../ui/button";
 import Counter from "../ui/counter";
 import { Input } from "../ui/input";
@@ -13,6 +12,7 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
+import { getConstantValue } from "@/config/utils";
 const elementTypes = {
   INPUT: "input",
   SELECT: "select",
@@ -61,7 +61,11 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
           <SelectContent>
             {controlItem.options?.length > 0
               ? controlItem.options.map((optionItem) => (
-                  <SelectItem key={optionItem.id} value={optionItem.id}>
+                  <SelectItem
+                    key={optionItem.id}
+                    disabled={optionItem.disabled ? true : false}
+                    value={optionItem.id}
+                  >
                     {optionItem.label}
                   </SelectItem>
                 ))
@@ -82,7 +86,7 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
             });
           }}
           defaultValue={value}
-          placeholder={`Select ${optionsMap[controlItem.name]}`}
+          placeholder={`Select ${getConstantValue(controlItem.name)}`}
           variant="inverted"
           hidden={controlItem.hidden}
         />

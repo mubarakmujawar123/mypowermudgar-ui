@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
-import { Card, CardContent, CardFooter } from "../ui/card";
-import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { optionsMap } from "@/config/config";
 import { useNavigate } from "react-router-dom";
+import { getConstantValue } from "@/config/utils";
 
 const ShoppingProductTile = ({ product }) => {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ const ShoppingProductTile = ({ product }) => {
           <h2 className="text-xl font-bold mb-2 mt-2">{product?.title}</h2>
           <div className="flex justify-between items-center mb-2">
             <span className="text-[16px] text-muted-foreground">
-              {optionsMap[product?.category]}
+              {getConstantValue(product?.category)}
             </span>
           </div>
           <div className="flex justify-between items-center mb-2">

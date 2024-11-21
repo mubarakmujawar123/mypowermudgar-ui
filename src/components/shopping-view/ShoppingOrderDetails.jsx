@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 import { DialogContent, DialogTitle } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { optionsMap } from "@/config/config";
+import { getConstantValue } from "@/config/utils";
 
 const ShoppingOrderDetails = ({ orderDetails }) => {
   const { user } = useSelector((state) => state.auth);
   console.log("orderDetails", orderDetails);
   return (
-    <DialogContent className="sm:max-w-[600px] overflow-auto h-auto max-h-[100vh]">
+    <DialogContent className="sm:max-w-[600px] overflow-auto h-auto max-h-[80vh]">
       {orderDetails ? (
         <>
           <DialogTitle>Order Information</DialogTitle>
@@ -26,6 +26,10 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Order Price</p>
                 <Label>${orderDetails?.totalAmount}</Label>
+              </div>
+              <div className="flex mt-2 items-center justify-between">
+                <p className="font-medium">Shipping Charges</p>
+                <Label>${orderDetails?.shippingCost}</Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Payment method</p>
@@ -46,7 +50,7 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                       : "text-black"
                   }`}
                 >
-                  {orderDetails?.orderStatus}
+                  {getConstantValue(orderDetails?.orderStatus)}
                 </Label>
               </div>
             </div>
@@ -54,9 +58,9 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <div className="font-medium">Order Details</div>
-                <ul className="grid gap-3">
+                <div className="grid gap-3">
                   {orderDetails?.cartItems && orderDetails?.cartItems.length > 0
-                    ? orderDetails?.cartItems.map((cartItem, index) => (
+                    ? orderDetails?.cartItems.map((cartItem) => (
                         <div
                           key={cartItem.id}
                           className="flex items-center space-x-4 bg-gray-100 p-2"
@@ -69,7 +73,7 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                           <div className="flex-1">
                             <div>
                               <span className="font-semibold">Category: </span>{" "}
-                              {optionsMap[cartItem?.category]}
+                              {getConstantValue(cartItem?.category)}
                             </div>
                             <div className="">
                               <span className="font-semibold">Title: </span>{" "}
@@ -82,15 +86,15 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                               {cartItem?.productDescription
                                 ? Object.keys(cartItem.productDescription).map(
                                     (descriptionItem) => (
-                                      <div key={descriptionItem}>{`${
-                                        optionsMap[descriptionItem]
-                                      } : ${
-                                        optionsMap[
-                                          cartItem?.productDescription[
-                                            descriptionItem
-                                          ]
+                                      <div
+                                        key={descriptionItem}
+                                      >{`${getConstantValue(
+                                        descriptionItem
+                                      )} : ${getConstantValue(
+                                        cartItem?.productDescription[
+                                          descriptionItem
                                         ]
-                                      }`}</div>
+                                      )}`}</div>
                                     )
                                   )
                                 : ""}
@@ -105,33 +109,9 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                             </div>
                           </div>
                         </div>
-                        // <li
-                        //   key={item.id}
-                        //   className="flex items-center justify-between gap-3"
-                        // >
-                        //   <span>
-                        //     <span className="font-semibold">{index + 1} </span>
-                        //   </span>
-                        //   <span>
-                        //     <span className="font-semibold">Category: </span>
-                        //     {optionsMap[item.category]}
-                        //   </span>
-                        //   <span>
-                        //     <span className="font-semibold">Title: </span>
-                        //     {item.title}
-                        //   </span>
-                        //   <span>
-                        //     <span className="font-semibold">Quantity: </span>
-                        //     {item.quantity}
-                        //   </span>
-                        //   <span>
-                        //     <span className="font-semibold">Price: </span> $
-                        //     {item.price}
-                        //   </span>
-                        // </li>
                       ))
                     : null}
-                </ul>
+                </div>
               </div>
             </div>
             <Separator />

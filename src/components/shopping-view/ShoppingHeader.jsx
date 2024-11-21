@@ -1,9 +1,10 @@
 import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
 import {
+  createSearchParams,
   Link,
   useLocation,
   useNavigate,
-  useSearchParams,
+  // useSearchParams,
 } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -27,13 +28,21 @@ import { fetchCartItems } from "@/store/shop/shoppingCartSlice";
 const MenuItems = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
+  const handleNavigation = (getCurrentMenuItem) => {
+    navigate({
+      pathname: getCurrentMenuItem.path,
+      search: `?${createSearchParams({
+        category: getCurrentMenuItem.id,
+      })}`,
+    });
+
+    //setSearchParams(new URLSearchParams(`?category=${getCurrentMenuItem.id}`));
+  };
   const handleNavigate = (getCurrentMenuItem) => {
     sessionStorage.removeItem("filters");
     const currentFilter =
-      getCurrentMenuItem.id !== "home" &&
-      getCurrentMenuItem.id !== "search" &&
-      getCurrentMenuItem.id !== "all-products"
+      getCurrentMenuItem.id !== "home" && getCurrentMenuItem.id !== "search"
         ? {
             category: [getCurrentMenuItem.id],
           }
@@ -41,12 +50,11 @@ const MenuItems = () => {
 
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
 
-    location.pathname.includes("listing") && currentFilter !== null
-      ? setSearchParams(
-          new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
-        )
+    currentFilter !== null
+      ? handleNavigation(getCurrentMenuItem)
       : navigate(getCurrentMenuItem.path);
   };
+
   console.log("location", location);
 
   return (

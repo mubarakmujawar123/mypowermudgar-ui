@@ -1,12 +1,12 @@
 import { Minus, Plus, Trash } from "lucide-react";
 import { Button } from "../ui/button";
-import { optionsMap } from "@/config/config";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteCartItem,
   updateCartQuantity,
 } from "@/store/shop/shoppingCartSlice";
 import { useToast } from "@/hooks/use-toast";
+import { calculateItemPrice, getConstantValue } from "@/config/utils";
 
 /* eslint-disable react/prop-types */
 const UserCartItemsContent = ({ cartItem }) => {
@@ -51,17 +51,19 @@ const UserCartItemsContent = ({ cartItem }) => {
         className="w-20 h-20 rounded object-cover"
       />
       <div className="flex-1">
-        <h4 className="font-light italic">{optionsMap[cartItem?.category]}</h4>
+        <h4 className="font-light italic">
+          {getConstantValue(cartItem?.category)}
+        </h4>
         <h3 className="font-extrabold">{cartItem?.title}</h3>
         <div className="gap-2 mt-1">
           {cartItem?.productDescription
             ? Object.keys(cartItem.productDescription).map(
                 (descriptionItem) => (
-                  <div key={descriptionItem}>{`${
-                    optionsMap[descriptionItem]
-                  } : ${
-                    optionsMap[cartItem?.productDescription[descriptionItem]]
-                  }`}</div>
+                  <div key={descriptionItem}>{`${getConstantValue(
+                    descriptionItem
+                  )} : ${getConstantValue(
+                    cartItem?.productDescription[descriptionItem]
+                  )}`}</div>
                 )
               )
             : ""}
@@ -69,11 +71,17 @@ const UserCartItemsContent = ({ cartItem }) => {
       </div>
       <div className="flex flex-col self-end gap-2 items-end">
         <p className="font-semibold">
-          $
-          {(
-            (cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) *
-            cartItem?.quantity
-          ).toFixed(2)}
+          {cartItem?.salePrice > 0
+            ? calculateItemPrice(
+                cartItem?.salePrice,
+                cartItem?.quantity,
+                cartItem?.productDescription
+              )
+            : calculateItemPrice(
+                cartItem?.price,
+                cartItem?.quantity,
+                cartItem?.productDescription
+              )}
         </p>
         <div className="flex items-center gap-2 mt-1">
           <Button
