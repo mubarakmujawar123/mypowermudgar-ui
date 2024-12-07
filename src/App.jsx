@@ -23,6 +23,8 @@ import Home from "./pages/auth/Home";
 import AdminOrders from "./components/admin-view/AdminOrders";
 import PaymentCancle from "./pages/shopping-view/PaymentCancle";
 import PaymentCapture from "./pages/shopping-view/PaymentCapture";
+import { getCurrencyRates } from "./store/auth-slice/currencyRateSlice";
+import Footer from "./pages/auth/Footer";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -32,85 +34,91 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuth());
+    dispatch(getCurrencyRates());
   }, [dispatch]);
+
   if (isLoading) return <Loader />;
   return (
-    <div className="flex flex-col overflow-hidden bg-white">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/auth"
-          element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <AuthLayout />
-            </CheckAuth>
-          }
-        >
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
-        <Route
-          path="/admin"
-          element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <AdminLayout />
-            </CheckAuth>
-          }
-        >
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="products" element={<AdminProducts />} />
-          <Route path="orders" element={<AdminOrders />} />
-        </Route>
-        <Route
-          path="/shop"
-          element={
-            // <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <ShoppingLayout />
-            // </CheckAuth>
-          }
-        >
-          <Route path="home" element={<ShoppingHome />} />
-          <Route path="listing" element={<Listing />} />
+    <div className="flex flex-col overflow-hidden bg-white min-h-[100vh]">
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/auth"
+            element={
+              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                <AuthLayout />
+              </CheckAuth>
+            }
+          >
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
+          <Route
+            path="/admin"
+            element={
+              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                <AdminLayout />
+              </CheckAuth>
+            }
+          >
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="orders" element={<AdminOrders />} />
+          </Route>
+          <Route
+            path="/shop"
+            element={
+              // <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <ShoppingLayout />
+              // </CheckAuth>
+            }
+          >
+            <Route path="home" element={<ShoppingHome />} />
+            <Route path="listing" element={<Listing />} />
 
-          <Route
-            path="checkout"
-            element={
-              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                <Checkout />
-              </CheckAuth>
-            }
-          />
+            <Route
+              path="checkout"
+              element={
+                <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                  <Checkout />
+                </CheckAuth>
+              }
+            />
 
-          <Route
-            path="account"
-            element={
-              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                <Accounts />
-              </CheckAuth>
-            }
-          />
-          <Route path=":category/:id" element={<ProductDetails />} />
-          <Route
-            path="capture-payment"
-            element={
-              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                <PaymentCapture />
-              </CheckAuth>
-            }
-          />
-          <Route
-            path="cancel-payment"
-            element={
-              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                <PaymentCancle />
-              </CheckAuth>
-            }
-          />
-        </Route>
-        <Route path="/unauthorize" element={<UnAuthorize />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <footer className="mt-5 bg-black text-white h-16">Footer section</footer>
+            <Route
+              path="account"
+              element={
+                <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                  <Accounts />
+                </CheckAuth>
+              }
+            />
+            <Route path=":category/:id" element={<ProductDetails />} />
+            <Route
+              path="capture-payment"
+              element={
+                <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                  <PaymentCapture />
+                </CheckAuth>
+              }
+            />
+            <Route
+              path="cancel-payment"
+              element={
+                <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                  <PaymentCancle />
+                </CheckAuth>
+              }
+            />
+          </Route>
+          <Route path="/unauthorize" element={<UnAuthorize />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <footer className="bg-black text-white h-[150px]">
+        <Footer />
+      </footer>
     </div>
   );
 }

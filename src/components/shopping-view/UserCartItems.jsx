@@ -1,5 +1,9 @@
 /* eslint-disable react/prop-types */
-import { calculateShippingCost, calculateTotalCartPrice } from "@/config/utils";
+import {
+  calculateShippingCost,
+  calculateTotalCartPrice,
+  convertPrice,
+} from "@/config/utils";
 import UserCartItemsContent from "./UserCartItemsContent";
 
 const UserCartItems = ({ cartItems }) => {
@@ -22,16 +26,18 @@ const UserCartItems = ({ cartItems }) => {
       <div className="mt-8 space-y-4">
         <div className="flex justify-between">
           <span className="font-bold">Items Total </span>
-          <span className="font-bold">${totalCartAmount}</span>
+          <span className="font-bold">{convertPrice(totalCartAmount)}</span>
         </div>
         <div className="flex justify-between">
           <span className="font-bold">Shipping Charges</span>
-          <span className="font-bold">${calculateShippingCost()}</span>
+          <span className="font-bold">
+            {convertPrice(calculateShippingCost())}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="font-bold">Total Cart Price</span>
           <span className="font-bold">
-            ${totalCartAmount + calculateShippingCost()}
+            {convertPrice(totalCartAmount + calculateShippingCost())}
           </span>
         </div>
       </div>

@@ -17,6 +17,7 @@ import {
   getOrderDetails,
   resetOrderDetails,
 } from "@/store/shop/shoppingOrderSlice";
+import { convertPriceForOrderPage } from "@/config/utils";
 
 const ShoppingOrders = () => {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -74,8 +75,20 @@ const ShoppingOrders = () => {
                   >
                     {orderItem?.orderStatus}
                   </TableCell>
-                  <TableCell>{orderItem?.totalAmount}</TableCell>
-                  <TableCell>{orderItem?.shippingCost}</TableCell>
+                  <TableCell>
+                    {convertPriceForOrderPage(
+                      orderItem?.totalAmount,
+                      orderItem?.orderInCurrency,
+                      orderItem?.orderInCurrencyRate
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {convertPriceForOrderPage(
+                      orderItem?.shippingCost,
+                      orderItem?.orderInCurrency,
+                      orderItem?.orderInCurrencyRate
+                    )}
+                  </TableCell>
                   {/* <TableCell>{orderItem?.paymentStatus}</TableCell> */}
                   <TableCell className="flex justify-end">
                     <Button

@@ -7,18 +7,35 @@ import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { createNewOrder } from "@/store/shop/shoppingOrderSlice";
 import UserCartItems from "@/components/shopping-view/UserCartItems";
+import { payPalAcceptedCurrancies } from "@/config/constant";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   const [isPaymentStart, setIsPaymentStart] = useState(false);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
   const { cartItems } = useSelector((state) => state.shopCart);
+  const { currencyRateList } = useSelector((state) => state.currencyRate);
   const { user } = useSelector((state) => state.auth);
   const { approvalURL } = useSelector((state) => state.shopOrder);
   const { toast } = useToast();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const totalCartAmount = calculateTotalCartPrice(cartItems?.items);
   const shippingCost = calculateShippingCost(cartItems?.items);
+
+  const getInfoForPayPal = () => {
+    const currencyForCheckout = payPalAcceptedCurrancies.includes(
+      user?.preferredCurrency
+    )
+      ? user?.preferredCurrency
+      : "USD";
+    return {
+      currencyForCheckout,
+      currencyRateForCheckout: currencyRateList[currencyForCheckout],
+    };
+  };
   const handleInitiatePaypalPayment = () => {
     if (cartItems.length === 0) {
       toast({
@@ -44,7 +61,7 @@ const Checkout = () => {
         title: item?.title,
         category: item?.category,
         image: item?.image,
-        productDescription: item?.productDescription,
+        productAdditionalInfo: item?.productAdditionalInfo,
         price: item?.salePrice > 0 ? item?.salePrice : item?.price,
         quantity: item?.quantity,
       })),
@@ -65,6 +82,9 @@ const Checkout = () => {
       shippingCost: shippingCost,
       orderDate: new Date(),
       orderUpdateDate: new Date(),
+      infoForPayPal: getInfoForPayPal(),
+      orderInCurrency: user?.preferredCurrency,
+      orderInCurrencyRate: currencyRateList[user?.preferredCurrency],
       paymentId: "",
       payerId: "",
     };
@@ -82,10 +102,20 @@ const Checkout = () => {
   useEffect(() => {
     if (approvalURL) {
       window.location.href = approvalURL;
+      if (isPaymentStart)
+        window.history.pushState({ prevPage: "paypalOrderPage" }, null);
     }
-  }, [approvalURL]);
+  }, [approvalURL, isPaymentStart]);
 
-  console.log("cartItems", cartItems);
+  useEffect(() => {
+    const prevPage = window?.history?.state?.prevPage;
+    if (prevPage === "paypalOrderPage") {
+      window.history.pushState(null, null);
+      navigate("/shop/cancel-payment");
+    }
+  }, [window?.history?.state]);
+
+  console.log("window.history", window.history);
 
   return (
     <div className="flex flex-col">

@@ -19,6 +19,20 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const editUserPreference = createAsyncThunk(
+  "/auth/editPreference",
+  async ({ id, preferredCurrency }) => {
+    try {
+      const response = await APIConfig.put(`/auth/editPreference/${id}`, {
+        preferredCurrency,
+      });
+      return response?.data;
+    } catch (error) {
+      return error?.response?.data;
+    }
+  }
+);
+
 export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
   try {
     const response = await APIConfig.post("/auth/login", formData);
@@ -53,7 +67,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {},
+    updateUserPreferrence: (state, action) => {
+      console.log("state", state.user, action);
+      state.user = { ...state.user, ...action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -104,5 +121,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { updateUserPreferrence } = authSlice.actions;
 export default authSlice.reducer;

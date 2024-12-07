@@ -21,13 +21,28 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "@/store/auth-slice/authSlice";
+import {
+  editUserPreference,
+  logoutUser,
+  updateUserPreferrence,
+} from "@/store/auth-slice/authSlice";
 import UserCartWrapper from "./UserCartWrapper";
 import { fetchCartItems } from "@/store/shop/shoppingCartSlice";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useToast } from "@/hooks/use-toast";
+// import { getCurrencySymbol } from "@/config/utils";
 
 const MenuItems = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  // const { user } = useSelector((state) => state.auth);
+
   // const [searchParams, setSearchParams] = useSearchParams();
   const handleNavigation = (getCurrentMenuItem) => {
     navigate({
@@ -76,11 +91,32 @@ const HeaderRightContent = () => {
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
+  const { preferredCurrencyList } = useSelector((state) => state.currencyRate);
+  // console.log("preferredCurrencyList", preferredCurrencyList);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
   const handleLogout = () => {
     dispatch(logoutUser());
+  };
+  console.log("value", user);
+  const currencyChangeHandler = (value) => {
+    dispatch(
+      editUserPreference({ id: user?.id, preferredCurrency: value })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(updateUserPreferrence({ preferredCurrency: value }));
+        toast({
+          title: data?.payload?.message,
+        });
+      } else {
+        toast({
+          title: data?.payload?.message,
+          variant: "destructive",
+        });
+      }
+    });
   };
 
   useEffect(() => {
@@ -103,13 +139,38 @@ const HeaderRightContent = () => {
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+        {/* <Label>Preferred Currency</Label> */}
+        <Select
+          onValueChange={(option) => currencyChangeHandler(option)}
+          value={user?.preferredCurrency}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={`Select Preferred Currency`} />
+          </SelectTrigger>
+          <SelectContent>
+            {preferredCurrencyList?.length > 0
+              ? preferredCurrencyList.map((optionItem) => (
+                  <SelectItem
+                    key={optionItem.id}
+                    disabled={optionItem.disabled ? true : false}
+                    value={optionItem.id}
+                  >
+                    {optionItem.label}
+                    <span className="text-base ml-1">
+                      ({optionItem.symbol})
+                    </span>
+                  </SelectItem>
+                ))
+              : null}
+          </SelectContent>
+        </Select>
         <Button
           onClick={() => setOpenCartSheet(true)}
           variant="outline"
           size="icon"
           className="relative"
         >
-          <ShoppingCart className="w-6 h-6" />
+          <ShoppingCart className="w-9 h-9 p-2" />
           <span className="absolute top=[-5px] right-[2px] font-bold text-sm"></span>
           <span className="sr-only"> User Cart</span>
         </Button>

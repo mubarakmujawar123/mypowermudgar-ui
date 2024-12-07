@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { addProducToCartElements } from "@/config/config";
 import {
   calculateItemPrice,
+  convertPrice,
   getConstantValue,
   isFormValid,
 } from "@/config/utils";
@@ -28,7 +29,6 @@ export const ProductDetails = () => {
   const dispatch = useDispatch();
   const selectedProduct = location?.state.product;
   const { user } = useSelector((state) => state.auth);
-  const { cartItems } = useSelector((state) => state.shopCart);
   const [formData, setFormData] = useState(initialAddProductToCartData);
   const [formElements, setFormElements] = useState(addProducToCartElements);
   const { toast } = useToast();
@@ -51,7 +51,7 @@ export const ProductDetails = () => {
           selectedProduct?.salePrice > 0
             ? selectedProduct?.salePrice
             : selectedProduct?.price,
-        productDescription: restFormData,
+        productAdditionalInfo: restFormData,
       })
     ).then((data) => {
       if (data?.payload?.success) {
@@ -117,47 +117,58 @@ export const ProductDetails = () => {
         />
       </div>
       <div className="m-5 w-6/12">
-        <h3 className="text-xl italic font-light">
-          {getConstantValue(selectedProduct?.category)}
-        </h3>
         <h2 className="font-semibold text-3xl">{selectedProduct?.title}</h2>
         {selectedProduct?.salePrice > 0 ? (
           <Badge className="font-medium bg-black hover:bg-black mb-3 mt-3">
             Sale
           </Badge>
         ) : null}
-        <div className="w-6/12 flex justify-between items-center mb-3">
-          {selectedProduct?.salePrice > 0 ? (
-            <span className="text-lg">
-              <div>Sale Price</div>
-              <div>
-                {calculateItemPrice(
-                  selectedProduct?.salePrice,
-                  formData.quantity,
-                  formData
-                )}
-              </div>
-            </span>
-          ) : null}
-          <span className="text-lg text-primary">
-            <div>Price</div>
-            <div
-              className={`${
-                selectedProduct?.salePrice > 0 ? "line-through" : ""
-              }`}
-            >
-              {calculateItemPrice(
-                selectedProduct?.price,
-                formData.quantity,
-                formData
-              )}
+        <div className="w-6/12 flex items-center mb-3">
+          <span className="text-2xl font-semibold">
+            {/* <div>Sale Price</div> */}
+            <div>
+              {selectedProduct?.salePrice > 0
+                ? convertPrice(
+                    calculateItemPrice(
+                      selectedProduct?.salePrice,
+                      formData.quantity,
+                      formData
+                    )
+                  )
+                : convertPrice(
+                    calculateItemPrice(
+                      selectedProduct?.price,
+                      formData.quantity,
+                      formData
+                    )
+                  )}
             </div>
           </span>
+          <span className="text-sm text-primary self-end ml-1">
+            {/* <div>Price</div> */}
+            {selectedProduct?.salePrice > 0 ? (
+              <div
+                className={`${
+                  selectedProduct?.salePrice > 0 ? "line-through" : ""
+                }`}
+              >
+                {convertPrice(
+                  calculateItemPrice(
+                    selectedProduct?.price,
+                    formData.quantity,
+                    formData
+                  )
+                )}
+              </div>
+            ) : null}
+          </span>
         </div>
-        <p className="mt-5 mb-5 text-lg">{selectedProduct?.description}</p>
-
+        <p className="mb-2">
+          Category : {getConstantValue(selectedProduct?.category)}
+        </p>
         <div className="w-6/12">
           <CommonForm
+            hideSubmitButton={!user?.id ? true : false}
             buttonText={"Add To Cart"}
             formData={formData}
             setFormData={setFormData}
@@ -166,6 +177,7 @@ export const ProductDetails = () => {
             isFormValid={isFormValid(formData, formElements)}
           />
         </div>
+        <p className="mt-5 mb-5 text-lg">{selectedProduct?.description}</p>
       </div>
     </div>
   );

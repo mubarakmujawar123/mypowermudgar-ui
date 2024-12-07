@@ -8,14 +8,14 @@ const initialState = {
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
-  async ({ userId, productId, quantity, basePrice, productDescription }) => {
+  async ({ userId, productId, quantity, basePrice, productAdditionalInfo }) => {
     try {
       const response = await APIConfig.post(`/shop/cart/add`, {
         userId,
         productId,
         quantity,
         basePrice,
-        productDescription,
+        productAdditionalInfo,
       });
       return response?.data;
     } catch (error) {
@@ -38,12 +38,12 @@ export const fetchCartItems = createAsyncThunk(
 
 export const updateCartQuantity = createAsyncThunk(
   "cart/updateCartQuantity",
-  async ({ userId, productId, productDescription, quantity }) => {
+  async ({ userId, productId, productAdditionalInfo, quantity }) => {
     try {
       const response = await APIConfig.put(`/shop/cart/update-cart`, {
         userId,
         productId,
-        productDescription,
+        productAdditionalInfo,
         quantity,
       });
       return response?.data;
@@ -55,10 +55,10 @@ export const updateCartQuantity = createAsyncThunk(
 
 export const deleteCartItem = createAsyncThunk(
   "cart/deletCartItem",
-  async ({ userId, productId, productDescription }) => {
+  async ({ userId, productId, productAdditionalInfo }) => {
     try {
       const response = await APIConfig.delete(
-        `/shop/cart/${userId}/${productId}/${productDescription}`
+        `/shop/cart/${userId}/${productId}/${productAdditionalInfo}`
       );
       return response?.data;
     } catch (error) {

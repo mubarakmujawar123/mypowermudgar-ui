@@ -2,7 +2,7 @@
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { useNavigate } from "react-router-dom";
-import { getConstantValue } from "@/config/utils";
+import { convertPrice, getConstantValue } from "@/config/utils";
 
 const ShoppingProductTile = ({ product }) => {
   const navigate = useNavigate();
@@ -30,25 +30,26 @@ const ShoppingProductTile = ({ product }) => {
           ) : null}
         </div>
         <CardContent>
-          <h2 className="text-xl font-bold mb-2 mt-2">{product?.title}</h2>
           <div className="flex justify-between items-center mb-2">
             <span className="text-[16px] text-muted-foreground">
               {getConstantValue(product?.category)}
             </span>
           </div>
+          <h2 className="text-xl font-bold mb-2 mt-2">{product?.title}</h2>
+
           <div className="flex justify-between items-center mb-2">
             <span className="text-lg text-primary">
               <div>Price</div>
               <div
                 className={`${product?.salePrice > 0 ? "line-through" : ""}`}
               >
-                {product?.price}
+                {convertPrice(product?.price)}
               </div>
             </span>
             {product?.salePrice > 0 ? (
               <span className="text-lg">
                 <div>Sale Price</div>
-                <div>{product?.salePrice}</div>
+                <div>{convertPrice(product?.salePrice)}</div>
               </span>
             ) : null}
           </div>

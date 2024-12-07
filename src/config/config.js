@@ -1,3 +1,5 @@
+import { countryList } from "./constant";
+
 export const registerFormControls = [
   {
     name: "userName",
@@ -21,6 +23,21 @@ export const registerFormControls = [
     placeholder: "Enter your password",
     componentType: "input",
     type: "password",
+    isMandatory: true,
+  },
+  {
+    name: "reEnterpassword",
+    label: "Re-Enter Password",
+    placeholder: "Re-Enter your password",
+    componentType: "input",
+    type: "password",
+    isMandatory: true,
+  },
+  {
+    name: "preferredCurrency",
+    label: "Preferred Currency",
+    componentType: "select",
+    options: [],
     isMandatory: true,
   },
 ];
@@ -222,12 +239,9 @@ export const addressFormControls = [
   {
     label: "Country",
     name: "country",
-    componentType: "select",
-    options: [
-      { id: "india", label: "India" },
-      { id: "unitedState", label: "United State" },
-    ],
-    placeholder: "Enter your state/region",
+    componentType: "combobox",
+    options: countryList,
+    placeholder: "Select your country",
     isMandatory: true,
   },
   {

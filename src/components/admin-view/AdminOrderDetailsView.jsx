@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import CommonForm from "../common/CommonForm";
-import { Badge } from "../ui/badge";
 import { DialogContent, DialogTitle } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
@@ -116,20 +115,20 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
                               <span className="font-semibold">
                                 Product Description:{" "}
                               </span>{" "}
-                              {cartItem?.productDescription
-                                ? Object.keys(cartItem.productDescription).map(
-                                    (descriptionItem) => (
-                                      <div
-                                        key={descriptionItem}
-                                      >{`${getConstantValue(
+                              {cartItem?.productAdditionalInfo
+                                ? Object.keys(
+                                    cartItem.productAdditionalInfo
+                                  ).map((descriptionItem) => (
+                                    <div
+                                      key={descriptionItem}
+                                    >{`${getConstantValue(
+                                      descriptionItem
+                                    )} : ${getConstantValue(
+                                      cartItem?.productAdditionalInfo[
                                         descriptionItem
-                                      )} : ${getConstantValue(
-                                        cartItem?.productDescription[
-                                          descriptionItem
-                                        ]
-                                      )}`}</div>
-                                    )
-                                  )
+                                      ]
+                                    )}`}</div>
+                                  ))
                                 : ""}
                             </div>
                             <div>

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { DialogContent, DialogTitle } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { getConstantValue } from "@/config/utils";
+import { convertPriceForOrderPage, getConstantValue } from "@/config/utils";
 
 const ShoppingOrderDetails = ({ orderDetails }) => {
   const { user } = useSelector((state) => state.auth);
@@ -25,11 +25,23 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Order Price</p>
-                <Label>${orderDetails?.totalAmount}</Label>
+                <Label>
+                  {convertPriceForOrderPage(
+                    orderDetails?.totalAmount,
+                    orderDetails?.orderInCurrency,
+                    orderDetails?.orderInCurrencyRate
+                  )}
+                </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Shipping Charges</p>
-                <Label>${orderDetails?.shippingCost}</Label>
+                <Label>
+                  {convertPriceForOrderPage(
+                    orderDetails?.shippingCost,
+                    orderDetails?.orderInCurrency,
+                    orderDetails?.orderInCurrencyRate
+                  )}
+                </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Payment method</p>
@@ -83,29 +95,37 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                               <span className="font-semibold">
                                 Product Description:{" "}
                               </span>{" "}
-                              {cartItem?.productDescription
-                                ? Object.keys(cartItem.productDescription).map(
-                                    (descriptionItem) => (
-                                      <div
-                                        key={descriptionItem}
-                                      >{`${getConstantValue(
+                              {cartItem?.productAdditionalInfo
+                                ? Object.keys(
+                                    cartItem.productAdditionalInfo
+                                  ).map((descriptionItem) => (
+                                    <div
+                                      key={descriptionItem}
+                                    >{`${getConstantValue(
+                                      descriptionItem
+                                    )} : ${getConstantValue(
+                                      cartItem?.productAdditionalInfo[
                                         descriptionItem
-                                      )} : ${getConstantValue(
-                                        cartItem?.productDescription[
-                                          descriptionItem
-                                        ]
-                                      )}`}</div>
-                                    )
-                                  )
+                                      ]
+                                    )}`}</div>
+                                  ))
                                 : ""}
                             </div>
                             <div>
-                              <span className="font-semibold">Quantity: </span>{" "}
+                              <span className="font-semibold">Quantity: </span>
                               {cartItem?.quantity}
                             </div>
                             <div>
-                              <span className="font-semibold">Price: </span>{" "}
-                              {cartItem?.price}
+                              <span className="font-semibold">Price: </span>
+                              {convertPriceForOrderPage(
+                                cartItem?.price,
+                                orderDetails?.orderInCurrency,
+                                orderDetails?.orderInCurrencyRate
+                              )}
+                              {/* <div className="font-light text-xs">
+                                Final order price can be differ based on product
+                                quantity, weight, and height etc...
+                              </div> */}
                             </div>
                           </div>
                         </div>

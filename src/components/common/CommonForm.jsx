@@ -13,6 +13,7 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
 import { getConstantValue } from "@/config/utils";
+import { Combobox } from "../ui/combobox";
 const elementTypes = {
   INPUT: "input",
   SELECT: "select",
@@ -20,11 +21,12 @@ const elementTypes = {
   TEXTAREA: "textarea",
   COUNTER: "counter",
   CHECKBOX: "checkbox",
+  COMBOBOX: "combobox",
 };
 
 const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
   let element;
-  const value = formData[controlItem.name] || "";
+  let value = formData[controlItem.name] || "";
   switch (controlItem.componentType) {
     case elementTypes.INPUT:
       element = (
@@ -67,6 +69,11 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
                     value={optionItem.id}
                   >
                     {optionItem.label}
+                    {optionItem.symbol ? (
+                      <span className="text-base ml-1">
+                        ({optionItem.symbol})
+                      </span>
+                    ) : null}
                   </SelectItem>
                 ))
               : null}
@@ -89,6 +96,22 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
           placeholder={`Select ${getConstantValue(controlItem.name)}`}
           variant="inverted"
           hidden={controlItem.hidden}
+        />
+      );
+
+      break;
+    case elementTypes.COMBOBOX:
+      element = (
+        <Combobox
+          onValueChange={(val) => {
+            setFormData({
+              ...formData,
+              [controlItem.name]: val,
+            });
+          }}
+          options={controlItem.options}
+          defaultValue={value}
+          placeholder={`Select ${getConstantValue(controlItem.name)}`}
         />
       );
 
@@ -168,6 +191,7 @@ const CommonForm = ({
   onSubmit,
   buttonText,
   isFormValid,
+  hideSubmitButton = false,
 }) => {
   return (
     <form onSubmit={onSubmit}>
@@ -194,9 +218,11 @@ const CommonForm = ({
           </div>
         ))}
       </div>
-      <Button disabled={!isFormValid} type="submit" className="mt-5 w-full">
-        {buttonText || "Submit"}
-      </Button>
+      {!hideSubmitButton ? (
+        <Button disabled={!isFormValid} type="submit" className="mt-5 w-full">
+          {buttonText || "Submit"}
+        </Button>
+      ) : null}
     </form>
   );
 };
