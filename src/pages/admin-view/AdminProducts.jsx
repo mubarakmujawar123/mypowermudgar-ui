@@ -44,7 +44,6 @@ const AdminProducts = () => {
   const { productList } = useSelector((state) => state.adminProduct);
   const dispatch = useDispatch();
   const { toast } = useToast();
-  console.log("productList", productList);
 
   const onSubmit = (event) => {
     event.preventDefault();

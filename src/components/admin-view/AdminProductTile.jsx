@@ -4,7 +4,6 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { getConstantValue } from "@/config/utils";
 
 const AdminProductTile = ({ product, handleEdit, handleDelete }) => {
-  console.log("product", product);
   return (
     <Card className="w-full max-w-sm mx-auto m-2">
       <div>

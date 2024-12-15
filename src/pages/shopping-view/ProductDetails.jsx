@@ -35,7 +35,6 @@ export const ProductDetails = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log("formData", formData);
     const { quantity, ...restFormData } = formData;
     // let getCartsItems = cartItems.items || [];
     if (!user?.id) {
@@ -94,8 +93,6 @@ export const ProductDetails = () => {
     setFormElements(updatedFormElements);
     setFormData(updatedProductToCartData);
   }, [selectedProduct, location]);
-
-  console.log("formData", formData);
 
   return (
     <div className="w-9/12 mx-auto flex justify-center">

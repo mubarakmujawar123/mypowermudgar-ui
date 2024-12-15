@@ -1,3 +1,4 @@
+import { allowedCurrencies } from "@/config/constant";
 import { getCurrencySymbol } from "@/config/utils";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -15,8 +16,14 @@ export const getCurrencyRates = createAsyncThunk(
       const response = await axios.get(
         "https://api.frankfurter.app/latest?base=INR"
       );
-      console.log("response", response);
-      return response?.data;
+      const _ratesObj = response?.data?.rates;
+      const rates = {};
+      for (const key in _ratesObj) {
+        if (allowedCurrencies.includes(key)) {
+          rates[key] = _ratesObj[key].toFixed(3);
+        }
+      }
+      return rates;
     } catch (error) {
       return error?.response?.data;
     }
@@ -50,12 +57,11 @@ const currencyRateSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getCurrencyRates.fulfilled, (state, action) => {
-        console.log("action", action);
         state.isLoading = false;
         state.currencyRateList = { INR: 1, ...action?.payload?.rates };
         state.preferredCurrencyList = updatePreferredCurrencyList({
           INR: 1,
-          ...action?.payload?.rates,
+          ...action?.payload,
         });
       })
       .addCase(getCurrencyRates.rejected, (state) => {

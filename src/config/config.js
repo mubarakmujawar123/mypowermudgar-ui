@@ -33,13 +33,13 @@ export const registerFormControls = [
     type: "password",
     isMandatory: true,
   },
-  {
-    name: "preferredCurrency",
-    label: "Preferred Currency",
-    componentType: "select",
-    options: [],
-    isMandatory: true,
-  },
+  // {
+  //   name: "preferredCurrency",
+  //   label: "Preferred Currency",
+  //   componentType: "select",
+  //   options: [],
+  //   isMandatory: true,
+  // },
 ];
 export const loginFormControls = [
   {
@@ -54,6 +54,25 @@ export const loginFormControls = [
     name: "password",
     label: "Password",
     placeholder: "Enter your password",
+    componentType: "input",
+    type: "password",
+    isMandatory: true,
+  },
+];
+
+export const resetPasswordFormControls = [
+  {
+    name: "newPassword",
+    label: "New Password",
+    placeholder: "Enter new your password",
+    componentType: "input",
+    type: "password",
+    isMandatory: true,
+  },
+  {
+    name: "reEnterNewpassword",
+    label: "Re-Enter New Password",
+    placeholder: "Re-Enter New your password",
     componentType: "input",
     type: "password",
     isMandatory: true,
@@ -267,6 +286,7 @@ export const adminOrderStatusControls = [
     componentType: "select",
     isMandatory: true,
     options: [
+      { id: "CANCELLED", label: "CANCELLED", disabled: true },
       { id: "CONFIRMED", label: "CONFIRMED", disabled: true },
       { id: "PENDING", label: "PENDING" },
       { id: "INPROGRESS", label: "IN PROGRESS" },

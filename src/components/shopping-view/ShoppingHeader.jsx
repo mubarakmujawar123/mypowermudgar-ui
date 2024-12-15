@@ -70,8 +70,6 @@ const MenuItems = () => {
       : navigate(getCurrentMenuItem.path);
   };
 
-  console.log("location", location);
-
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
@@ -92,7 +90,6 @@ const HeaderRightContent = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
   const { preferredCurrencyList } = useSelector((state) => state.currencyRate);
-  // console.log("preferredCurrencyList", preferredCurrencyList);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { toast } = useToast();
@@ -100,7 +97,6 @@ const HeaderRightContent = () => {
   const handleLogout = () => {
     dispatch(logoutUser());
   };
-  console.log("value", user);
   const currencyChangeHandler = (value) => {
     dispatch(
       editUserPreference({ id: user?.id, preferredCurrency: value })

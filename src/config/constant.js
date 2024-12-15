@@ -14,7 +14,7 @@ export const constantMap = {
   INPROGRESS: "IN PROGRESS",
   INSHIPPING: "IN SHIPPING",
 };
-
+export const allowedCurrencies = ["GBP", "EUR", "USD"];
 export const countryList = [
   {
     value: "India",

@@ -24,7 +24,6 @@ const ShoppingOrders = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { orderList, orderDetails } = useSelector((state) => state.shopOrder);
-  console.log("orderDetails 1", orderDetails);
   const dispatch = useDispatch();
 
   function handleFetchOrderDetails(getId) {
@@ -52,6 +51,7 @@ const ShoppingOrders = () => {
               <TableHead>Order Status</TableHead>
               <TableHead>Order Price</TableHead>
               <TableHead>Shipping Charges</TableHead>
+              <TableHead>Total Order Amount</TableHead>
               {/* <TableHead>Payment Status</TableHead> */}
               <TableHead>
                 <span className="sr-only">Details </span>
@@ -68,7 +68,8 @@ const ShoppingOrders = () => {
                     className={`p-2 ${
                       orderItem?.orderStatus === "CONFIRMED"
                         ? "text-green-600"
-                        : orderItem?.orderStatus === "REJECTED"
+                        : orderItem?.orderStatus === "REJECTED" ||
+                          orderItem?.orderStatus === "CANCELLED"
                         ? "text-red-600"
                         : "text-black"
                     }`}
@@ -85,6 +86,13 @@ const ShoppingOrders = () => {
                   <TableCell>
                     {convertPriceForOrderPage(
                       orderItem?.shippingCost,
+                      orderItem?.orderInCurrency,
+                      orderItem?.orderInCurrencyRate
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {convertPriceForOrderPage(
+                      orderItem?.totalAmount + orderItem?.shippingCost,
                       orderItem?.orderInCurrency,
                       orderItem?.orderInCurrencyRate
                     )}

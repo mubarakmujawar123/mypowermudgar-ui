@@ -13,6 +13,7 @@ import {
   getOrdersOfAllUsers,
   updateOrderStatus,
 } from "@/store/admin/orderSlice";
+import { currencySymbol } from "@/config/constant";
 const initialFormData = {
   orderStatus: "",
 };
@@ -21,7 +22,6 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { toast } = useToast();
-  console.log("formData", orderDetails);
 
   useEffect(() => {
     setFormData({ ...initialFormData, orderStatus: orderDetails?.orderStatus });
@@ -57,11 +57,24 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Order Price</p>
-                <Label>${orderDetails?.totalAmount}</Label>
+                <Label>
+                  {currencySymbol["INR"]}
+                  {orderDetails?.totalAmount}
+                </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Shipping Charges</p>
-                <Label>${orderDetails?.shippingCost}</Label>
+                <Label>
+                  {currencySymbol["INR"]}
+                  {orderDetails?.shippingCost}
+                </Label>
+              </div>
+              <div className="flex mt-2 items-center justify-between">
+                <p className="font-medium">Total Order Amount</p>
+                <Label>
+                  {currencySymbol["INR"]}
+                  {orderDetails?.totalAmount + orderDetails?.shippingCost}
+                </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Payment method</p>
@@ -77,7 +90,8 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
                   className={`py-1 px-3 ${
                     orderDetails?.orderStatus === "CONFIRMED"
                       ? "text-green-500"
-                      : orderDetails?.orderStatus === "REJECTED"
+                      : orderDetails?.orderStatus === "REJECTED" ||
+                        orderDetails?.orderStatus === "CANCELLED"
                       ? "text-red-600"
                       : "text-black"
                   }`}
@@ -192,17 +206,21 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
             </div>
           </div>
           <Separator />
-
-          <div>
-            <CommonForm
-              formControls={adminOrderStatusControls}
-              formData={formData}
-              setFormData={setFormData}
-              buttonText={"Update Order Status"}
-              onSubmit={(event) => handleUpdateStatus(event, orderDetails?._id)}
-              isFormValid={isFormValid(formData, adminOrderStatusControls)}
-            />
-          </div>
+          {console.log("orderDetails?.orderStatus", orderDetails?.orderStatus)}
+          {orderDetails?.orderStatus !== "CANCELLED" ? (
+            <div>
+              <CommonForm
+                formControls={adminOrderStatusControls}
+                formData={formData}
+                setFormData={setFormData}
+                buttonText={"Update Order Status"}
+                onSubmit={(event) =>
+                  handleUpdateStatus(event, orderDetails?._id)
+                }
+                isFormValid={isFormValid(formData, adminOrderStatusControls)}
+              />
+            </div>
+          ) : null}
         </>
       ) : (
         <DialogTitle>Order not found!</DialogTitle>

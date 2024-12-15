@@ -106,7 +106,7 @@ export const convertPriceForOrderPage = (
   }
   return (
     getCurrencySymbol(orderInCurrency ? orderInCurrency : "INR") +
-    " " +
+    "" +
     calculatedPrice.toFixed(2)
   );
 };

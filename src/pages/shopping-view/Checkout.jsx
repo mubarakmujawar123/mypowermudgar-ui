@@ -16,7 +16,7 @@ const Checkout = () => {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { currencyRateList } = useSelector((state) => state.currencyRate);
   const { user } = useSelector((state) => state.auth);
-  const { approvalURL } = useSelector((state) => state.shopOrder);
+  const { approvalURL, orderId } = useSelector((state) => state.shopOrder);
   const { toast } = useToast();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -88,9 +88,7 @@ const Checkout = () => {
       paymentId: "",
       payerId: "",
     };
-    console.log("orderData", orderData);
     dispatch(createNewOrder(orderData)).then((data) => {
-      console.log("create order data", data);
       if (data?.payload?.success) {
         setIsPaymentStart(true);
       } else {
@@ -114,8 +112,6 @@ const Checkout = () => {
       navigate("/shop/cancel-payment");
     }
   }, [window?.history?.state]);
-
-  console.log("window.history", window.history);
 
   return (
     <div className="flex flex-col">

@@ -37,6 +37,20 @@ export const capturePayment = createAsyncThunk(
   }
 );
 
+export const canclePayment = createAsyncThunk(
+  "order/canclePayment",
+  async ({ orderId }) => {
+    try {
+      const response = await APIConfig.post(`/shop/order/cancle-payment`, {
+        orderId,
+      });
+      return response?.data;
+    } catch (error) {
+      return error?.response?.data;
+    }
+  }
+);
+
 export const getAllOrdersByUserId = createAsyncThunk(
   "order/orders-list",
   async (userId) => {
@@ -75,7 +89,6 @@ const shoppingOrderSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createNewOrder.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.isLoading = false;
         state.approvalURL = action?.payload?.approvalURL;
         state.orderId = action?.payload?.data?.orderId;

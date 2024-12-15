@@ -152,7 +152,6 @@ const renderElementUsingType = ({ controlItem, formData, setFormData }) => {
           type={controlItem.type}
           checked={controlItem.isDefault}
           onCheckedChange={(checked) => {
-            console.log("Event", checked);
             setFormData({
               ...formData,
               [controlItem.name]: checked,

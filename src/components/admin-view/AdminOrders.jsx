@@ -18,6 +18,7 @@ import {
   resetAdminOrderDetails,
 } from "@/store/admin/orderSlice";
 import { getConstantValue } from "@/config/utils";
+import { currencySymbol } from "@/config/constant";
 
 const AdminOrders = () => {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -49,6 +50,7 @@ const AdminOrders = () => {
               <TableHead>Order Status</TableHead>
               <TableHead>Order Price</TableHead>
               <TableHead>Shipping Charges</TableHead>
+              <TableHead>Total Order Amount</TableHead>
               <TableHead>
                 <span className="sr-only">Details </span>
               </TableHead>
@@ -64,15 +66,26 @@ const AdminOrders = () => {
                     className={`p-2 ${
                       orderItem?.orderStatus === "CONFIRMED"
                         ? "text-green-600"
-                        : orderItem?.orderStatus === "REJECTED"
+                        : orderItem?.orderStatus === "REJECTED" ||
+                          orderItem?.orderStatus === "CANCELLED"
                         ? "text-red-600"
                         : "text-black"
                     }`}
                   >
                     {getConstantValue(orderItem?.orderStatus)}
                   </TableCell>
-                  <TableCell>{orderItem?.totalAmount}</TableCell>
-                  <TableCell>{orderItem?.shippingCost}</TableCell>
+                  <TableCell>
+                    {currencySymbol["INR"]}
+                    {orderItem?.totalAmount}
+                  </TableCell>
+                  <TableCell>
+                    {currencySymbol["INR"]}
+                    {orderItem?.shippingCost}
+                  </TableCell>
+                  <TableCell>
+                    {currencySymbol["INR"]}
+                    {orderItem?.totalAmount + orderItem?.shippingCost}
+                  </TableCell>
                   {/* <TableCell>{orderItem?.paymentStatus}</TableCell> */}
                   <TableCell className="flex justify-end">
                     <Button

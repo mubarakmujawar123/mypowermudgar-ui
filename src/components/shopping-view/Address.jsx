@@ -94,7 +94,6 @@ const Address = ({ setCurrentSelectedAddress, selectedId }) => {
   useEffect(() => {
     if (user?.id) dispatch(fecthAllAddress(user?.id));
   }, [dispatch, user]);
-  console.log("formData", formData);
   return (
     <Card>
       <div className="mb-5 p-3 grid grid-cols-1 lg:grid-cols-3 lg gap-2">

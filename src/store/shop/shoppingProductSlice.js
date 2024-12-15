@@ -12,7 +12,6 @@ export const fetchFilteredProducts = createAsyncThunk(
     const query = new URLSearchParams({
       ...filterParams,
     });
-    console.log("query", query);
 
     try {
       const response = await APIConfig.get(

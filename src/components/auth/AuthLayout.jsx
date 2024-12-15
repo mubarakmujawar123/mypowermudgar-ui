@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 function AuthLayout() {
+  console.log("in 1");
   return (
     <div className="flex min-h-[calc(100vh-150px)] w-full">
       <div className="hidden lg:flex items-center justify-center bg-slate-500 w-1/2 px-12">

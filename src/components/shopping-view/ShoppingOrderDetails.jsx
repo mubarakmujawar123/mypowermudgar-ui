@@ -7,7 +7,6 @@ import { convertPriceForOrderPage, getConstantValue } from "@/config/utils";
 
 const ShoppingOrderDetails = ({ orderDetails }) => {
   const { user } = useSelector((state) => state.auth);
-  console.log("orderDetails", orderDetails);
   return (
     <DialogContent className="sm:max-w-[600px] overflow-auto h-auto max-h-[80vh]">
       {orderDetails ? (
@@ -44,6 +43,16 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                 </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
+                <p className="font-medium">Total Order Amount</p>
+                <Label>
+                  {convertPriceForOrderPage(
+                    orderDetails?.totalAmount + orderDetails?.shippingCost,
+                    orderDetails?.orderInCurrency,
+                    orderDetails?.orderInCurrencyRate
+                  )}
+                </Label>
+              </div>
+              <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Payment method</p>
                 <Label>{orderDetails?.paymentMethod}</Label>
               </div>
@@ -57,7 +66,8 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                   className={`py-1 px-3 ${
                     orderDetails?.orderStatus === "CONFIRMED"
                       ? "text-green-500"
-                      : orderDetails?.orderStatus === "REJECTED"
+                      : orderDetails?.orderStatus === "REJECTED" ||
+                        orderDetails?.orderStatus === "CANCELLED"
                       ? "text-red-600"
                       : "text-black"
                   }`}
@@ -122,10 +132,6 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                                 orderDetails?.orderInCurrency,
                                 orderDetails?.orderInCurrencyRate
                               )}
-                              {/* <div className="font-light text-xs">
-                                Final order price can be differ based on product
-                                quantity, weight, and height etc...
-                              </div> */}
                             </div>
                           </div>
                         </div>
@@ -135,47 +141,54 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
               </div>
             </div>
             <Separator />
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <div className="font-medium">Shipping Info</div>
-                <div className="grid gap-0.5">
-                  <span>
-                    <span className="font-semibold">User Name : </span>
-                    {user.userName}
-                  </span>
-                  <span>
-                    <span className="font-semibold">Phone : </span>
-                    {orderDetails?.addressInfo?.phone}
-                  </span>
-                  <span>
-                    <span className="font-semibold">Email : </span>
-                    {user?.email}
-                  </span>
-                  <span>
-                    <span className="font-semibold">Address : </span>
-                    {orderDetails?.addressInfo?.address}
-                  </span>
-                  <span>
-                    <span className="font-semibold">City : </span>
-                    {orderDetails?.addressInfo?.city}
-                  </span>
-                  <span>
-                    <span className="font-semibold">Pincode : </span>
-                    {orderDetails?.addressInfo?.pincode}
-                  </span>
-                  <span>
-                    <span className="font-semibold">State : </span>
-                    {orderDetails?.addressInfo?.state}
-                  </span>
-                  <span>
-                    <span className="font-semibold">Country : </span>
-                    {orderDetails?.addressInfo?.country}
-                  </span>
-                  <span>
-                    <span className="font-semibold">Note : </span>
-                    {orderDetails?.addressInfo?.notes}
-                  </span>
-                </div>
+            <div className="grid gap-1">
+              <div className="font-thin italic">Note:</div>
+              <div className="font-thin italic">
+                Order price is based on product price, weight, quantity etc...
+                <br />
+                Total order amount is based on order price and shipping charges
+              </div>
+            </div>
+            <Separator />
+            <div className="grid gap-2">
+              <div className="font-medium">Shipping Info</div>
+              <div className="grid gap-0.5">
+                <span>
+                  <span className="font-semibold">User Name : </span>
+                  {user.userName}
+                </span>
+                <span>
+                  <span className="font-semibold">Phone : </span>
+                  {orderDetails?.addressInfo?.phone}
+                </span>
+                <span>
+                  <span className="font-semibold">Email : </span>
+                  {user?.email}
+                </span>
+                <span>
+                  <span className="font-semibold">Address : </span>
+                  {orderDetails?.addressInfo?.address}
+                </span>
+                <span>
+                  <span className="font-semibold">City : </span>
+                  {orderDetails?.addressInfo?.city}
+                </span>
+                <span>
+                  <span className="font-semibold">Pincode : </span>
+                  {orderDetails?.addressInfo?.pincode}
+                </span>
+                <span>
+                  <span className="font-semibold">State : </span>
+                  {orderDetails?.addressInfo?.state}
+                </span>
+                <span>
+                  <span className="font-semibold">Country : </span>
+                  {orderDetails?.addressInfo?.country}
+                </span>
+                <span>
+                  <span className="font-semibold">Note : </span>
+                  {orderDetails?.addressInfo?.notes}
+                </span>
               </div>
             </div>
           </div>

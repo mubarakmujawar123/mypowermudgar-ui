@@ -17,20 +17,15 @@ const PaymentCapture = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
   const params = new URLSearchParams(location.search);
-  console.log("params", params);
   const paymentId = params.get("token");
   const payerId = params.get("PayerID");
 
   useEffect(() => {
-    console.log("paymentId", paymentId, payerId);
-
     if (paymentId && payerId) {
       const orderId = JSON.parse(sessionStorage.getItem("currentOrderId"));
       setCurrentOrderId(orderId);
       dispatch(capturePayment({ paymentId, payerId, orderId })).then((data) => {
-        console.log("data", data);
         if (data?.payload?.success) {
           sessionStorage.removeItem("currentOrderId");
           setCurrentOrderId(null);
