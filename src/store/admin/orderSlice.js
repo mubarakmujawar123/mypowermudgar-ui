@@ -30,10 +30,12 @@ export const getOrderDetailsForAdmin = createAsyncThunk(
 
 export const updateOrderStatus = createAsyncThunk(
   "orders/update",
-  async ({ id, orderStatus }) => {
+  async ({ id, orderStatus, consignmentNumber, logisticsCompany }) => {
     try {
       const response = await APIConfig.put(`/admin/orders/update/${id}`, {
         orderStatus,
+        consignmentNumber,
+        logisticsCompany,
       });
       return response?.data;
     } catch (error) {

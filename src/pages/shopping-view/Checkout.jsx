@@ -100,10 +100,16 @@ const Checkout = () => {
   useEffect(() => {
     if (approvalURL) {
       window.location.href = approvalURL;
-      if (isPaymentStart)
-        window.history.pushState({ prevPage: "paypalOrderPage" }, null);
     }
-  }, [approvalURL, isPaymentStart]);
+  }, [approvalURL]);
+
+  useEffect(() => {
+    console.log("approvalURL", approvalURL);
+    console.log("isPaymentStart", isPaymentStart);
+    if (approvalURL && isPaymentStart) {
+      window.history.pushState({ prevPage: "paypalOrderPage" }, null);
+    }
+  }, [isPaymentStart]);
 
   useEffect(() => {
     const prevPage = window?.history?.state?.prevPage;

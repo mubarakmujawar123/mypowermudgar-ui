@@ -121,8 +121,8 @@ export const ProductDetails = () => {
           </Badge>
         ) : null}
         <div className="w-6/12 flex items-center mb-3">
-          <span className="text-2xl font-semibold">
-            {/* <div>Sale Price</div> */}
+          <span className="text-2xl font-semibold flex items-center">
+            <div className="text-lg">Price: </div>
             <div>
               {selectedProduct?.salePrice > 0
                 ? convertPrice(

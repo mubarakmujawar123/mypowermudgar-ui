@@ -4,6 +4,7 @@ import {
   ChartNoAxesCombined,
   LayoutDashboard,
   ShoppingBasket,
+  DollarSign,
 } from "lucide-react";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +28,12 @@ const adminSidebarMenuItems = [
     label: "Orders",
     path: "/admin/orders",
     icon: <BadgeCheck />,
+  },
+  {
+    id: "currencyRates",
+    label: "Currency Rates",
+    path: "/admin/UpdateCurrencyRates",
+    icon: <DollarSign />,
   },
 ];
 

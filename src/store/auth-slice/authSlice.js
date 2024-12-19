@@ -166,13 +166,13 @@ const authSlice = createSlice({
       })
       .addCase(verifyAccount.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = false;
+        // state.isAuthenticated = false;
         state.userIdForEmailVerification =
           action?.payload?.userIdForEmailVerification ?? null;
       })
       .addCase(verifyAccount.rejected, (state) => {
         state.isLoading = false;
-        state.isAuthenticated = false;
+        // state.isAuthenticated = false;
         state.userIdForEmailVerification = null;
       })
       .addCase(resendOTP.pending, (state) => {
@@ -180,13 +180,13 @@ const authSlice = createSlice({
       })
       .addCase(resendOTP.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = false;
+        // state.isAuthenticated = false;
         state.userIdForEmailVerification =
           action?.payload?.userIdForEmailVerification ?? null;
       })
       .addCase(resendOTP.rejected, (state) => {
         state.isLoading = false;
-        state.isAuthenticated = false;
+        // state.isAuthenticated = false;
         state.userIdForEmailVerification = null;
       })
       .addCase(loginUser.pending, (state) => {

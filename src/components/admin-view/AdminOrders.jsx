@@ -112,7 +112,10 @@ const AdminOrders = () => {
               setOpenDetailsDialog(false);
             }}
           >
-            <AdminOrderDetailsView orderDetails={orderDetails} />
+            <AdminOrderDetailsView
+              orderDetails={orderDetails}
+              setOpenDetailsDialog={setOpenDetailsDialog}
+            />
           </Dialog>
         ) : null}
       </CardContent>

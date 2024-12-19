@@ -1,3 +1,4 @@
+import { APIConfig } from "@/config/apiConfig";
 import { allowedCurrencies } from "@/config/constant";
 import { getCurrencySymbol } from "@/config/utils";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -5,12 +6,12 @@ import axios from "axios";
 
 const initialState = {
   isLoading: false,
-  currencyRateList: [],
+  currencyRateList: null,
   preferredCurrencyList: [],
 };
 
-export const getCurrencyRates = createAsyncThunk(
-  "/getCurrencyRates",
+export const getCurrencyRatesForAdmin = createAsyncThunk(
+  "/currency/getCurrencyRatesForAdmin",
   async () => {
     try {
       const response = await axios.get(
@@ -20,10 +21,47 @@ export const getCurrencyRates = createAsyncThunk(
       const rates = {};
       for (const key in _ratesObj) {
         if (allowedCurrencies.includes(key)) {
-          rates[key] = _ratesObj[key].toFixed(3);
+          rates[key] = _ratesObj[key].toFixed(4);
         }
       }
       return rates;
+    } catch (error) {
+      return error?.response?.data;
+    }
+  }
+);
+
+export const setCurrencyRates = createAsyncThunk(
+  "/currency/setCurrencyRates",
+  async ({ rates }) => {
+    try {
+      const response = await APIConfig.post("/currency/setCurrencyRates", {
+        rates,
+      });
+      return response?.data;
+    } catch (error) {
+      return error?.response?.data;
+    }
+  }
+);
+
+export const getCurrencyRates = createAsyncThunk(
+  "/currency/getCurrencyRates",
+  async () => {
+    try {
+      // const response = await axios.get(
+      //   "https://api.frankfurter.app/latest?base=INR"
+      // );
+      // const _ratesObj = response?.data?.rates;
+      // const rates = {};
+      // for (const key in _ratesObj) {
+      //   if (allowedCurrencies.includes(key)) {
+      //     rates[key] = _ratesObj[key].toFixed(3);
+      //   }
+      // }
+      // return rates;
+      const response = await APIConfig.get("/currency/getCurrencyRates");
+      return response?.data;
     } catch (error) {
       return error?.response?.data;
     }
@@ -58,15 +96,32 @@ const currencyRateSlice = createSlice({
       })
       .addCase(getCurrencyRates.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.currencyRateList = { INR: 1, ...action?.payload?.rates };
-        state.preferredCurrencyList = updatePreferredCurrencyList({
-          INR: 1,
-          ...action?.payload,
-        });
+        state.currencyRateList = action?.payload?.data?.rates;
+        state.preferredCurrencyList = updatePreferredCurrencyList(
+          action?.payload?.data?.rates
+        );
       })
       .addCase(getCurrencyRates.rejected, (state) => {
         state.isLoading = false;
         state.currencyRateList = [];
+      })
+      .addCase(getCurrencyRatesForAdmin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCurrencyRatesForAdmin.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(getCurrencyRatesForAdmin.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(setCurrencyRates.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(setCurrencyRates.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(setCurrencyRates.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

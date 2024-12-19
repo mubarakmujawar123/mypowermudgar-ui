@@ -41,6 +41,7 @@ const Login = () => {
     setIsOTPSent(false);
     setEmailForResetPassword("");
     setIsResetPassword(false);
+    setFormData(initialState);
   };
 
   const onSubmit = (event) => {

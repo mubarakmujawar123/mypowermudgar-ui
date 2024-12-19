@@ -16,26 +16,39 @@ import {
 import { currencySymbol } from "@/config/constant";
 const initialFormData = {
   orderStatus: "",
+  consignmentNumber: "",
+  logisticsCompany: "",
 };
-const AdminOrderDetailsView = ({ orderDetails }) => {
+const AdminOrderDetailsView = ({ orderDetails, setOpenDetailsDialog }) => {
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { toast } = useToast();
 
   useEffect(() => {
-    setFormData({ ...initialFormData, orderStatus: orderDetails?.orderStatus });
+    setFormData({
+      ...initialFormData,
+      orderStatus: orderDetails?.orderStatus,
+      consignmentNumber: orderDetails?.consignmentNumber,
+      logisticsCompany: orderDetails?.logisticsCompany,
+    });
   }, [orderDetails]);
 
   const handleUpdateStatus = (event, id) => {
     event.preventDefault();
     dispatch(
-      updateOrderStatus({ id: id, orderStatus: formData.orderStatus })
+      updateOrderStatus({
+        id: id,
+        orderStatus: formData.orderStatus,
+        consignmentNumber: formData.consignmentNumber,
+        logisticsCompany: formData.logisticsCompany,
+      })
     ).then((data) => {
       if (data?.payload?.success) {
-        dispatch(getOrderDetailsForAdmin(orderDetails?._id));
+        // dispatch(getOrderDetailsForAdmin(orderDetails?._id));
         dispatch(getOrdersOfAllUsers());
         setFormData(initialFormData);
+        setOpenDetailsDialog(false);
         toast({ title: data.payload.message });
       }
     });

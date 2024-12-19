@@ -75,6 +75,14 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                   {getConstantValue(orderDetails?.orderStatus)}
                 </Label>
               </div>
+              <div className="flex mt-2 items-center justify-between">
+                <p className="font-medium">Logistics Company</p>
+                <Label>{orderDetails?.logisticsCompany}</Label>
+              </div>
+              <div className="flex mt-2 items-center justify-between">
+                <p className="font-medium">Consignment Number (AWB)</p>
+                <Label>{orderDetails?.consignmentNumber}</Label>
+              </div>
             </div>
             <Separator />
             <div className="grid gap-4">

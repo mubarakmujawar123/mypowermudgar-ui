@@ -71,6 +71,9 @@ export const getConstantValue = (key) => {
 export const convertPrice = (price, isForPaypalOrder = false) => {
   const preferredCurrency = store?.getState()?.auth?.user?.preferredCurrency;
   const currentCurrencyRate = store?.getState()?.currencyRate?.currencyRateList;
+  if (!currentCurrencyRate) {
+    return "";
+  }
   if (isForPaypalOrder) {
     const _currency = payPalAcceptedCurrancies.includes(preferredCurrency)
       ? preferredCurrency

@@ -281,6 +281,22 @@ export const addressFormControls = [
 
 export const adminOrderStatusControls = [
   {
+    label: "Logistic Company",
+    name: "logisticsCompany",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Logistic Company Name",
+    isMandatory: true,
+  },
+  {
+    label: "Consignment Number",
+    name: "consignmentNumber",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Consignment Number",
+    isMandatory: true,
+  },
+  {
     label: "Order Status",
     name: "orderStatus",
     componentType: "select",

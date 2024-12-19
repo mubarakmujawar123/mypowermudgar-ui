@@ -26,6 +26,7 @@ import PaymentCapture from "./pages/shopping-view/PaymentCapture";
 import { getCurrencyRates } from "./store/auth-slice/currencyRateSlice";
 import Footer from "./pages/auth/Footer";
 import OTPVerification from "./pages/auth/OTPVerification";
+import UpdateCurrencyRates from "./components/admin-view/UpdateCurrencyRates";
 
 function App() {
   const { isAuthenticated, user, isLoading, userIdForEmailVerification } =
@@ -71,6 +72,10 @@ function App() {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="products" element={<AdminProducts />} />
               <Route path="orders" element={<AdminOrders />} />
+              <Route
+                path="UpdateCurrencyRates"
+                element={<UpdateCurrencyRates />}
+              />
             </Route>
             <Route
               path="/shop"
@@ -104,7 +109,11 @@ function App() {
               <Route
                 path="capture-payment"
                 element={
-                  <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                  <CheckAuth
+                    isAuthenticated={isAuthenticated}
+                    user={user}
+                    isLoading={isLoading}
+                  >
                     <PaymentCapture />
                   </CheckAuth>
                 }
@@ -112,7 +121,11 @@ function App() {
               <Route
                 path="cancel-payment"
                 element={
-                  <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                  <CheckAuth
+                    isAuthenticated={isAuthenticated}
+                    user={user}
+                    isLoading={isLoading}
+                  >
                     <PaymentCancle />
                   </CheckAuth>
                 }
