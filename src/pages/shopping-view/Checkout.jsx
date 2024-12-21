@@ -1,7 +1,11 @@
 import Address from "@/components/shopping-view/Address";
 import img from "../../assets/checkout.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import { calculateShippingCost, calculateTotalCartPrice } from "@/config/utils";
+import {
+  calculateShippingCost,
+  calculateTotalCartPrice,
+  calculateTotalCartPriceWithPreferredCurrency,
+} from "@/config/utils";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -9,21 +13,30 @@ import { createNewOrder } from "@/store/shop/shoppingOrderSlice";
 import UserCartItems from "@/components/shopping-view/UserCartItems";
 import { payPalAcceptedCurrancies } from "@/config/constant";
 import { useLocation, useNavigate } from "react-router-dom";
+import { updateSelectedAddress } from "@/store/shop/shoppingAddressSlice";
 
 const Checkout = () => {
   const [isPaymentStart, setIsPaymentStart] = useState(false);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
   const { cartItems } = useSelector((state) => state.shopCart);
   const { currencyRateList } = useSelector((state) => state.currencyRate);
+  const { shippingChargesList } = useSelector((state) => state.shippingCharges);
   const { user } = useSelector((state) => state.auth);
   const { approvalURL, orderId } = useSelector((state) => state.shopOrder);
+  const { selectedAddress } = useSelector((state) => state.shopAddress);
   const { toast } = useToast();
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   const totalCartAmount = calculateTotalCartPrice(cartItems?.items);
-  const shippingCost = calculateShippingCost(cartItems?.items);
+  const totalCartPriceWithPreferredCurrency =
+    calculateTotalCartPriceWithPreferredCurrency(cartItems?.items);
+  const shippingCost = calculateShippingCost(
+    cartItems?.items,
+    selectedAddress,
+    shippingChargesList
+  );
 
   const getInfoForPayPal = () => {
     const currencyForCheckout = payPalAcceptedCurrancies.includes(
@@ -79,6 +92,7 @@ const Checkout = () => {
       paymentMethod: "Paypal",
       paymentStatus: "PENDING",
       totalAmount: totalCartAmount,
+      totalCartPriceWithPreferredCurrency: totalCartPriceWithPreferredCurrency,
       shippingCost: shippingCost,
       orderDate: new Date(),
       orderUpdateDate: new Date(),
@@ -97,6 +111,12 @@ const Checkout = () => {
       }
     });
   };
+
+  const updateCurrentSelectedAddress = (addressInfo) => {
+    setCurrentSelectedAddress(addressInfo);
+    dispatch(updateSelectedAddress(addressInfo));
+  };
+
   useEffect(() => {
     if (approvalURL) {
       window.location.href = approvalURL;
@@ -104,8 +124,6 @@ const Checkout = () => {
   }, [approvalURL]);
 
   useEffect(() => {
-    console.log("approvalURL", approvalURL);
-    console.log("isPaymentStart", isPaymentStart);
     if (approvalURL && isPaymentStart) {
       window.history.pushState({ prevPage: "paypalOrderPage" }, null);
     }
@@ -119,6 +137,12 @@ const Checkout = () => {
     }
   }, [window?.history?.state]);
 
+  useEffect(() => {
+    if (selectedAddress) {
+      setCurrentSelectedAddress(selectedAddress);
+    }
+  }, [selectedAddress]);
+
   return (
     <div className="flex flex-col">
       <div className="relative h-[300px] w-full overflow-hidden">
@@ -126,31 +150,10 @@ const Checkout = () => {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5 p-5">
         <Address
-          selectedId={currentSelectedAddress}
-          setCurrentSelectedAddress={setCurrentSelectedAddress}
+          currentSelectedAddress={currentSelectedAddress}
+          updateCurrentSelectedAddress={updateCurrentSelectedAddress}
         />
         <div className="flex flex-col gap-4">
-          {/* {cartItems && cartItems?.items?.length > 0
-            ? cartItems?.items?.map((item) => (
-                <UserCartItemsContent key={item._id} cartItem={item} />
-              ))
-            : null}
-          <div className="mt-8 space-y-4">
-            <div className="flex justify-between">
-              <span className="font-bold">Items Total </span>
-              <span className="font-bold">${totalCartAmount}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-bold">Shipping Charges</span>
-              <span className="font-bold">${calculateShippingCost()}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-bold">Total Cart Price</span>
-              <span className="font-bold">
-                ${totalCartAmount + calculateShippingCost()}
-              </span>
-            </div>
-          </div> */}
           <UserCartItems cartItems={cartItems.items} />
           <div className="mt-4 w-full">
             <Button
@@ -161,13 +164,21 @@ const Checkout = () => {
                   : "block"
               }`}
               disabled={
-                !cartItems || cartItems?.items?.length === 0 ? true : false
+                !cartItems || cartItems?.items?.length === 0 || !selectedAddress
+                  ? true
+                  : false
               }
             >
               {isPaymentStart
                 ? "Processing Paypal Payment..."
                 : "Checkout with Paypal"}
             </Button>
+            {console.log("cartItems.length", cartItems)}
+            {cartItems && cartItems?.items?.length > 0 && !selectedAddress ? (
+              <div className="text-lg mt-2 text-red-600">
+                Select delivery address to proceed.
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

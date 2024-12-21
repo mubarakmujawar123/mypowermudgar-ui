@@ -4,6 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
   isLoading: false,
   addressList: [],
+  selectedAddress: null,
 };
 
 export const addAddress = createAsyncThunk(
@@ -67,7 +68,11 @@ export const deleteAddress = createAsyncThunk(
 const shoppingAddressSlice = createSlice({
   name: "shoppingAddressSlice",
   initialState,
-  reducers: () => {},
+  reducers: {
+    updateSelectedAddress: (state, action) => {
+      state.selectedAddress = action?.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addAddress.pending, (state) => {
@@ -111,4 +116,5 @@ const shoppingAddressSlice = createSlice({
   },
 });
 
+export const { updateSelectedAddress } = shoppingAddressSlice.actions;
 export default shoppingAddressSlice.reducer;

@@ -25,11 +25,14 @@ const initialAddressFormData = {
   // isDefault: false,
 };
 
-const Address = ({ setCurrentSelectedAddress, selectedId }) => {
+const Address = ({ updateCurrentSelectedAddress, currentSelectedAddress }) => {
   const [formData, setFormData] = useState(initialAddressFormData);
   const [currentEditedId, setCurrentEditedId] = useState(null);
+  const [localAddressFormControls, setLocalAddressFormControls] =
+    useState(addressFormControls);
   const { user } = useSelector((state) => state.auth);
   const { addressList } = useSelector((state) => state.shopAddress);
+  const { shippingChargesList } = useSelector((state) => state.shippingCharges);
   const { toast } = useToast();
   const dispatch = useDispatch();
   const handleManageAddress = (event) => {
@@ -91,9 +94,27 @@ const Address = ({ setCurrentSelectedAddress, selectedId }) => {
       }
     });
   };
+
   useEffect(() => {
     if (user?.id) dispatch(fecthAllAddress(user?.id));
   }, [dispatch, user]);
+
+  useEffect(() => {
+    if (shippingChargesList) {
+      const _listCountries = shippingChargesList.map((item) => ({
+        label: item.country,
+        value: item.country,
+      }));
+      let updatedObj = addressFormControls?.filter((item) => {
+        if (item.name === "country") {
+          item.options = _listCountries;
+        }
+        return item;
+      });
+      setLocalAddressFormControls(updatedObj);
+    }
+  }, [shippingChargesList, formData]);
+
   return (
     <Card>
       <div className="mb-5 p-3 grid grid-cols-1 lg:grid-cols-3 lg gap-2">
@@ -104,8 +125,8 @@ const Address = ({ setCurrentSelectedAddress, selectedId }) => {
                 addressInfo={addressItem}
                 handleEditAddress={handleEditAddress}
                 handleDeleteAddress={handleDeleteAddress}
-                selectedId={selectedId}
-                setCurrentSelectedAddress={setCurrentSelectedAddress}
+                currentSelectedAddress={currentSelectedAddress}
+                updateCurrentSelectedAddress={updateCurrentSelectedAddress}
               />
             ))
           : null}
@@ -116,12 +137,12 @@ const Address = ({ setCurrentSelectedAddress, selectedId }) => {
         </CardTitle>
         <CardContent className="space-y-3">
           <CommonForm
-            formControls={addressFormControls}
+            formControls={localAddressFormControls}
             formData={formData}
             setFormData={setFormData}
             buttonText={currentEditedId === null ? "Add" : "Edit"}
             onSubmit={handleManageAddress}
-            isFormValid={isFormValid(formData, addressFormControls)}
+            isFormValid={isFormValid(formData, localAddressFormControls)}
           />
         </CardContent>
       </CardHeader>

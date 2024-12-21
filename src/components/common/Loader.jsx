@@ -8,7 +8,7 @@ const Loader = () => {
     //     <Skeleton className="w-[250px] h-4" />
     //   </div>
     // </div>
-    <div role="status" className="fixed">
+    <div role="status" className="fixed top-0 left-0">
       <div className="flex h-[100vh] w-[100vw] align-middle justify-center items-center flex-col bg-black bg-opacity-20">
         <svg
           aria-hidden="true"

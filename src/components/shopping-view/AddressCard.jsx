@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { CircleCheck } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Label } from "../ui/label";
@@ -7,23 +8,28 @@ export const AddressCard = ({
   addressInfo,
   handleEditAddress,
   handleDeleteAddress,
-  setCurrentSelectedAddress,
-  selectedId,
+  updateCurrentSelectedAddress,
+  currentSelectedAddress,
 }) => {
   return (
     <Card
       onClick={
-        setCurrentSelectedAddress
-          ? () => setCurrentSelectedAddress(addressInfo)
+        updateCurrentSelectedAddress
+          ? () => updateCurrentSelectedAddress(addressInfo)
           : null
       }
       className={`cursor-pointer ${
-        selectedId?._id === addressInfo?._id
+        currentSelectedAddress?._id === addressInfo?._id
           ? "border-red-600 border-[4px]"
           : "border-black"
       }`}
     >
       <CardContent className="grid p-4 gap-4">
+        <Label className="flex justify-end">
+          {currentSelectedAddress?._id === addressInfo?._id ? (
+            <CircleCheck color="green" />
+          ) : null}
+        </Label>
         <Label>Phone: {addressInfo?.phone}</Label>
         <Label>Address: {addressInfo?.address}</Label>
         <Label>City: {addressInfo?.city}</Label>

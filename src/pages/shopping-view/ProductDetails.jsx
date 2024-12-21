@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { addProducToCartElements } from "@/config/config";
 import {
   calculateItemPrice,
-  convertPrice,
   getConstantValue,
+  getCurrencySymbol,
   isFormValid,
 } from "@/config/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -124,21 +124,20 @@ export const ProductDetails = () => {
           <span className="text-2xl font-semibold flex items-center">
             <div className="text-lg">Price: </div>
             <div>
+              {getCurrencySymbol(user?.preferredCurrency ?? "INR")}
               {selectedProduct?.salePrice > 0
-                ? convertPrice(
-                    calculateItemPrice(
-                      selectedProduct?.salePrice,
-                      formData.quantity,
-                      formData
-                    )
-                  )
-                : convertPrice(
-                    calculateItemPrice(
-                      selectedProduct?.price,
-                      formData.quantity,
-                      formData
-                    )
-                  )}
+                ? calculateItemPrice(
+                    selectedProduct?.salePrice,
+                    formData.quantity,
+                    formData,
+                    true
+                  ).toFixed(2)
+                : calculateItemPrice(
+                    selectedProduct?.price,
+                    formData.quantity,
+                    formData,
+                    true
+                  ).toFixed(2)}
             </div>
           </span>
           <span className="text-sm text-primary self-end ml-1">
@@ -149,13 +148,12 @@ export const ProductDetails = () => {
                   selectedProduct?.salePrice > 0 ? "line-through" : ""
                 }`}
               >
-                {convertPrice(
-                  calculateItemPrice(
-                    selectedProduct?.price,
-                    formData.quantity,
-                    formData
-                  )
-                )}
+                {calculateItemPrice(
+                  selectedProduct?.price,
+                  formData.quantity,
+                  formData,
+                  true
+                ).toFixed(2)}
               </div>
             ) : null}
           </span>

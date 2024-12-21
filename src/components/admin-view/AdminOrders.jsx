@@ -76,15 +76,17 @@ const AdminOrders = () => {
                   </TableCell>
                   <TableCell>
                     {currencySymbol["INR"]}
-                    {orderItem?.totalAmount}
+                    {orderItem?.totalAmount.toFixed(2)}
                   </TableCell>
                   <TableCell>
                     {currencySymbol["INR"]}
-                    {orderItem?.shippingCost}
+                    {orderItem?.shippingCost.toFixed(2)}
                   </TableCell>
                   <TableCell>
                     {currencySymbol["INR"]}
-                    {orderItem?.totalAmount + orderItem?.shippingCost}
+                    {(orderItem?.totalAmount + orderItem?.shippingCost).toFixed(
+                      2
+                    )}
                   </TableCell>
                   {/* <TableCell>{orderItem?.paymentStatus}</TableCell> */}
                   <TableCell className="flex justify-end">

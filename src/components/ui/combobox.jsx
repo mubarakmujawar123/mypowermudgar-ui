@@ -32,10 +32,13 @@ export function Combobox({
   defaultValue,
   placeholder,
   onValueChange,
+  disabled = false,
 }) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(defaultValue ? defaultValue : "");
-
+  const [value, setValue] = React.useState("");
+  React.useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -43,7 +46,8 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-auto justify-between font-normal"
+          className="w-[100%] justify-between font-normal"
+          disabled={disabled}
         >
           <span className="flex items-center gap-2">
             {value ? getImage(options, value) : null}
@@ -69,6 +73,7 @@ export function Combobox({
                     onValueChange(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
+                  disabled={option.disabled ? true : false}
                 >
                   {option.imgSrc ? (
                     <img

@@ -27,6 +27,8 @@ import { getCurrencyRates } from "./store/auth-slice/currencyRateSlice";
 import Footer from "./pages/auth/Footer";
 import OTPVerification from "./pages/auth/OTPVerification";
 import UpdateCurrencyRates from "./components/admin-view/UpdateCurrencyRates";
+import UpdateShippingCharges from "./components/admin-view/UpdateShippingCharges";
+import { getShippingCharges } from "./store/admin/shippingChargesSlice";
 
 function App() {
   const { isAuthenticated, user, isLoading, userIdForEmailVerification } =
@@ -36,6 +38,7 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
     dispatch(getCurrencyRates());
+    dispatch(getShippingCharges());
   }, [dispatch]);
 
   // if (isLoading) return <Loader />;
@@ -75,6 +78,10 @@ function App() {
               <Route
                 path="UpdateCurrencyRates"
                 element={<UpdateCurrencyRates />}
+              />
+              <Route
+                path="updateShippingCharges"
+                element={<UpdateShippingCharges />}
               />
             </Route>
             <Route

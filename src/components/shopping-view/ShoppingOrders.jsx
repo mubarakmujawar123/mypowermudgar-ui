@@ -17,7 +17,7 @@ import {
   getOrderDetails,
   resetOrderDetails,
 } from "@/store/shop/shoppingOrderSlice";
-import { convertPriceForOrderPage } from "@/config/utils";
+import { convertPriceForOrderPage, getCurrencySymbol } from "@/config/utils";
 
 const ShoppingOrders = () => {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -77,11 +77,8 @@ const ShoppingOrders = () => {
                     {orderItem?.orderStatus}
                   </TableCell>
                   <TableCell>
-                    {convertPriceForOrderPage(
-                      orderItem?.totalAmount,
-                      orderItem?.orderInCurrency,
-                      orderItem?.orderInCurrencyRate
-                    )}
+                    {getCurrencySymbol(orderItem?.orderInCurrency)}
+                    {orderItem?.totalCartPriceWithPreferredCurrency.toFixed(2)}
                   </TableCell>
                   <TableCell>
                     {convertPriceForOrderPage(
@@ -91,11 +88,18 @@ const ShoppingOrders = () => {
                     )}
                   </TableCell>
                   <TableCell>
-                    {convertPriceForOrderPage(
-                      orderItem?.totalAmount + orderItem?.shippingCost,
-                      orderItem?.orderInCurrency,
-                      orderItem?.orderInCurrencyRate
-                    )}
+                    {getCurrencySymbol(orderItem?.orderInCurrency)}
+                    {(
+                      Number(orderItem?.totalCartPriceWithPreferredCurrency) +
+                      Number(
+                        convertPriceForOrderPage(
+                          orderItem?.shippingCost,
+                          orderItem?.orderInCurrency,
+                          orderItem?.orderInCurrencyRate,
+                          true
+                        )
+                      )
+                    ).toFixed(2)}
                   </TableCell>
                   {/* <TableCell>{orderItem?.paymentStatus}</TableCell> */}
                   <TableCell className="flex justify-end">

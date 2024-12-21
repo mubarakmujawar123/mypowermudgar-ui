@@ -20,6 +20,14 @@ const UpdateCurrencyRates = () => {
         dispatch(setCurrencyRates({ rates })).then((info) => {
           if (info?.payload?.success) {
             toast({ title: info?.payload?.message });
+            dispatch(getCurrencyRates()).then((info) => {
+              if (!info?.payload?.success) {
+                toast({
+                  title: data?.payload?.message,
+                  variant: "destructive",
+                });
+              }
+            });
           } else {
             toast({
               title: info?.payload?.message,
@@ -52,33 +60,40 @@ const UpdateCurrencyRates = () => {
     }
   }, []);
   return (
-    <div className="flex justify-around">
+    <div className="flex justify-around flex-col md:flex-row lg:flex-row gap-4">
       <div>
-        <span className="font-bold">Currency Info</span>
+        <span className="font-bold">Current Currency Info</span>
         {currencyRatesInfo && currencyRatesInfo.rates && (
           <>
             <div className="flex gap-5">
               <div>Base Currency</div>
-              <div>{currencyRatesInfo.base}</div>
+              <div className="font-bold">{currencyRatesInfo.base}</div>
             </div>
             <div className="flex gap-5">
               <div>Base Currency Amount</div>
-              <div>{currencyRatesInfo.amount}</div>
+              <div className="font-bold">{currencyRatesInfo.amount}</div>
             </div>
             {Object.keys(currencyRatesInfo.rates).map((key) => {
               return (
                 <div className="flex gap-5" key={key}>
                   <div>{key}</div>
-                  <div>{currencyRatesInfo.rates[key]}</div>
+                  <div className="font-bold">
+                    {currencyRatesInfo.rates[key]}
+                  </div>
                 </div>
               );
             })}
           </>
         )}
       </div>
-      <Button onClick={updateCurrencyRatesHandler}>
-        Update Currency Rates
-      </Button>
+      <div>
+        <div className="mb-4 font-semibold">
+          Fetch new currancy rate and update into Database
+        </div>
+        <Button onClick={updateCurrencyRatesHandler}>
+          Update Currency Rates
+        </Button>
+      </div>
     </div>
   );
 };

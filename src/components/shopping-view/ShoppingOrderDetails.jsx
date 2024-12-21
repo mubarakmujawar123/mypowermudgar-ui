@@ -3,7 +3,11 @@ import { useSelector } from "react-redux";
 import { DialogContent, DialogTitle } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { convertPriceForOrderPage, getConstantValue } from "@/config/utils";
+import {
+  convertPriceForOrderPage,
+  getConstantValue,
+  getCurrencySymbol,
+} from "@/config/utils";
 
 const ShoppingOrderDetails = ({ orderDetails }) => {
   const { user } = useSelector((state) => state.auth);
@@ -25,11 +29,8 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Order Price</p>
                 <Label>
-                  {convertPriceForOrderPage(
-                    orderDetails?.totalAmount,
-                    orderDetails?.orderInCurrency,
-                    orderDetails?.orderInCurrencyRate
-                  )}
+                  {getCurrencySymbol(orderDetails?.orderInCurrency)}
+                  {orderDetails?.totalCartPriceWithPreferredCurrency.toFixed(2)}
                 </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
@@ -45,11 +46,18 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Total Order Amount</p>
                 <Label>
-                  {convertPriceForOrderPage(
-                    orderDetails?.totalAmount + orderDetails?.shippingCost,
-                    orderDetails?.orderInCurrency,
-                    orderDetails?.orderInCurrencyRate
-                  )}
+                  {getCurrencySymbol(orderDetails?.orderInCurrency)}
+                  {(
+                    Number(orderDetails?.totalCartPriceWithPreferredCurrency) +
+                    Number(
+                      convertPriceForOrderPage(
+                        orderDetails?.shippingCost,
+                        orderDetails?.orderInCurrency,
+                        orderDetails?.orderInCurrencyRate,
+                        true
+                      )
+                    )
+                  ).toFixed(2)}
                 </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">

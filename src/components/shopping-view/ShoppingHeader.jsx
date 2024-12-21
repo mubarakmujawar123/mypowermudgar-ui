@@ -36,14 +36,11 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useToast } from "@/hooks/use-toast";
-// import { getCurrencySymbol } from "@/config/utils";
+import { calculateTotalProductsCount } from "@/config/utils";
 
 const MenuItems = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  // const { user } = useSelector((state) => state.auth);
 
-  // const [searchParams, setSearchParams] = useSearchParams();
   const handleNavigation = (getCurrentMenuItem) => {
     navigate({
       pathname: getCurrentMenuItem.path,
@@ -164,10 +161,16 @@ const HeaderRightContent = () => {
           onClick={() => setOpenCartSheet(true)}
           variant="outline"
           size="icon"
-          className="relative"
+          className="relative flex w-auto"
         >
-          <ShoppingCart className="w-9 h-9 p-2" />
-          <span className="absolute top=[-5px] right-[2px] font-bold text-sm"></span>
+          <div>
+            <ShoppingCart className="w-9 h-9 p-2" />
+          </div>
+          <div className=" font-bold text-xs p-1 rounded-3xl mr-1 bg-green-600 text-white ">
+            {cartItems && cartItems.items && cartItems.items.length > 0
+              ? calculateTotalProductsCount(cartItems.items)
+              : 0}
+          </div>
           <span className="sr-only"> User Cart</span>
         </Button>
         <UserCartWrapper

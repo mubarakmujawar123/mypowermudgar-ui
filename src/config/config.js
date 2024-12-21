@@ -1,4 +1,27 @@
-import { countryList } from "./constant";
+// import { countryList } from "./constant";
+
+const optionsForWeightAndHeight = [
+  { id: "0", label: "0", value: "0" },
+  { id: "1-2", label: "1-2", value: "1-2" },
+  { id: "2-3", label: "2-3", value: "2-3" },
+  { id: "3-4", label: "3-4", value: "3-4" },
+  { id: "4-5", label: "4-5", value: "4-5" },
+  { id: "5-6", label: "5-6", value: "5-6" },
+  { id: "6-7", label: "6-7", value: "6-7" },
+  { id: "7-8", label: "7-8", value: "7-8" },
+  { id: "8-9", label: "8-9", value: "8-9" },
+  { id: "9-10", label: "9-10", value: "9-10" },
+  { id: "10-11", label: "10-11", value: "10-11" },
+  { id: "11-12", label: "11-12", value: "11-12" },
+  { id: "12-13", label: "12-13", value: "12-13" },
+  { id: "13-14", label: "13-14", value: "13-14" },
+  { id: "14-15", label: "14-15", value: "14-15" },
+  { id: "15-16", label: "15-16", value: "15-16" },
+  { id: "16-17", label: "16-17", value: "16-17" },
+  { id: "17-18", label: "17-18", value: "17-18" },
+  { id: "18-19", label: "18-19", value: "18-19" },
+  { id: "19-20", label: "19-20", value: "19-20" },
+];
 
 export const registerFormControls = [
   {
@@ -122,22 +145,14 @@ export const addProductFormElements = [
     label: "Height",
     name: "height",
     componentType: "multiselect",
-    options: [
-      { id: "0", label: "0", value: "0" },
-      { id: "1-2", label: "1-2", value: "1-2" },
-      { id: "2-3", label: "2-3", value: "2-3" },
-    ],
+    options: optionsForWeightAndHeight,
     isMandatory: true,
   },
   {
     label: "Weight",
     name: "weight",
     componentType: "multiselect",
-    options: [
-      { id: "0", label: "0", value: "0" },
-      { id: "1-2", label: "1-2", value: "1-2" },
-      { id: "2-3", label: "2-3", value: "2-3" },
-    ],
+    options: optionsForWeightAndHeight,
     isMandatory: true,
   },
   {
@@ -259,7 +274,7 @@ export const addressFormControls = [
     label: "Country",
     name: "country",
     componentType: "combobox",
-    options: countryList,
+    options: [],
     placeholder: "Select your country",
     isMandatory: true,
   },

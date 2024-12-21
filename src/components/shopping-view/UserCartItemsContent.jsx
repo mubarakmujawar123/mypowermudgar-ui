@@ -8,8 +8,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import {
   calculateItemPrice,
-  convertPrice,
   getConstantValue,
+  getCurrencySymbol,
 } from "@/config/utils";
 
 /* eslint-disable react/prop-types */
@@ -75,19 +75,20 @@ const UserCartItemsContent = ({ cartItem }) => {
       </div>
       <div className="flex flex-col self-end gap-2 items-end">
         <p className="font-semibold">
-          {convertPrice(
-            cartItem?.salePrice > 0
-              ? calculateItemPrice(
-                  cartItem?.salePrice,
-                  cartItem?.quantity,
-                  cartItem?.productAdditionalInfo
-                )
-              : calculateItemPrice(
-                  cartItem?.price,
-                  cartItem?.quantity,
-                  cartItem?.productAdditionalInfo
-                )
-          )}
+          {getCurrencySymbol(user?.preferredCurrency ?? "INR")}
+          {cartItem?.salePrice > 0
+            ? calculateItemPrice(
+                cartItem?.salePrice,
+                cartItem?.quantity,
+                cartItem?.productAdditionalInfo,
+                true
+              ).toFixed(2)
+            : calculateItemPrice(
+                cartItem?.price,
+                cartItem?.quantity,
+                cartItem?.productAdditionalInfo,
+                true
+              ).toFixed(2)}
         </p>
         <div className="flex items-center gap-2 mt-1">
           <Button

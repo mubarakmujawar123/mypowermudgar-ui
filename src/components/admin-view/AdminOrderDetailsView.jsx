@@ -72,21 +72,23 @@ const AdminOrderDetailsView = ({ orderDetails, setOpenDetailsDialog }) => {
                 <p className="font-medium">Order Price</p>
                 <Label>
                   {currencySymbol["INR"]}
-                  {orderDetails?.totalAmount}
+                  {orderDetails?.totalAmount.toFixed(2)}
                 </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Shipping Charges</p>
                 <Label>
                   {currencySymbol["INR"]}
-                  {orderDetails?.shippingCost}
+                  {orderDetails?.shippingCost.toFixed(2)}
                 </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Total Order Amount</p>
                 <Label>
                   {currencySymbol["INR"]}
-                  {orderDetails?.totalAmount + orderDetails?.shippingCost}
+                  {(
+                    orderDetails?.totalAmount + orderDetails?.shippingCost
+                  ).toFixed(2)}
                 </Label>
               </div>
               <div className="flex mt-2 items-center justify-between">
@@ -164,7 +166,7 @@ const AdminOrderDetailsView = ({ orderDetails, setOpenDetailsDialog }) => {
                             </div>
                             <div>
                               <span className="font-semibold">Price: </span>{" "}
-                              {cartItem?.price}
+                              {Number(cartItem?.price).toFixed(2)}
                             </div>
                           </div>
                         </div>

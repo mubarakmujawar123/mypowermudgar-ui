@@ -22,8 +22,13 @@ export const countryList = [
     // imgSrc: "/src/assets/country/in.svg"
   },
   {
-    value: "United State",
-    label: "United State",
+    value: "USA",
+    label: "USA",
+    // imgSrc: "/src/assets/country/us.svg",
+  },
+  {
+    value: "Dubai",
+    label: "Dubai",
     // imgSrc: "/src/assets/country/us.svg",
   },
 ];
