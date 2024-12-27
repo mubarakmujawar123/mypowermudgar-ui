@@ -78,7 +78,7 @@ const OTPVerification = ({
       resetAllStateForResetPassword();
     } else {
       dispatch(resetUserIdForEmailVerification());
-      navigate("-1");
+      navigate(-1);
     }
   };
   const resendOTPHandler = (e) => {

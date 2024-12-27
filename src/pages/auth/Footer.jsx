@@ -21,7 +21,7 @@ const Footer = () => {
           Email:&nbsp;
           <a
             href="mailto:demo@demo.com"
-            className="cursor-pointer text-blue-700"
+            className="cursor-pointer text-blue-700 text-ellipsis"
           >
             mypowerMudgar@gmail.com
           </a>

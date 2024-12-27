@@ -44,7 +44,7 @@ function App() {
   // if (isLoading) return <Loader />;
   return (
     <>
-      <div className="flex flex-col overflow-hidden bg-white min-h-[100vh]">
+      <div className="flex flex-col overflow-y-auto bg-white min-h-[100vh]">
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -142,7 +142,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
-        <footer className="bg-black text-white h-[150px]">
+        <footer className="bg-black text-white min-h-[150px] h-auto">
           <Footer />
         </footer>
         {isLoading && <Loader />}
