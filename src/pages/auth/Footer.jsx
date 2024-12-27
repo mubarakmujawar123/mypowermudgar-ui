@@ -10,13 +10,26 @@ const Footer = () => {
       </div>
       <div>
         <Link to={"/"}>About Us</Link>
-        <div>Contact Us:</div>
-        <div>Phone:</div>
-        <div>Email:</div>
+        <div>Contact Us</div>
+        <div>
+          Phone:&nbsp;<span className=" text-blue-700">+91 1234567890</span>
+        </div>
+        <div>
+          WhatsUp:&nbsp;<span className=" text-blue-700">+91 1234567890</span>
+        </div>
+        <div>
+          Email:&nbsp;
+          <a
+            href="mailto:demo@demo.com"
+            className="cursor-pointer text-blue-700"
+          >
+            mypowerMudgar@gmail.com
+          </a>
+        </div>
       </div>
       <div>
         <div>Address:</div>
-        <div>Pune, MH, India</div>
+        <div>Pune, MH</div>
         <div>India</div>
       </div>
     </div>

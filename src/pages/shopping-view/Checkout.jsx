@@ -1,5 +1,5 @@
 import Address from "@/components/shopping-view/Address";
-import img from "../../assets/checkout.jpg";
+import img from "../../assets/checkout.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   calculateShippingCost,
