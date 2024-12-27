@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
+import { getConstantValue } from "@/config/utils";
 
 const AdminProductTile = ({ product, handleEdit, handleDelete }) => {
-  console.log("product", product);
   return (
     <Card className="w-full max-w-sm mx-auto m-2">
       <div>
@@ -15,6 +15,9 @@ const AdminProductTile = ({ product, handleEdit, handleDelete }) => {
           />
         </div>
         <CardContent>
+          <h6 className="text-lg font-normal italic mb-2 mt-2">
+            {getConstantValue(product?.category)}
+          </h6>
           <h2 className="text-xl font-bold mb-2 mt-2">{product?.title}</h2>
 
           <div className="flex justify-between items-center mb-2">

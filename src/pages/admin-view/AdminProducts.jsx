@@ -25,7 +25,7 @@ const initialAddProductFormData = {
   title: "",
   description: "",
   category: "",
-  woodType: "",
+  woodType: [],
   height: "",
   weight: "",
   price: "",
@@ -44,7 +44,6 @@ const AdminProducts = () => {
   const { productList } = useSelector((state) => state.adminProduct);
   const dispatch = useDispatch();
   const { toast } = useToast();
-  console.log("productList", productList);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -141,7 +140,7 @@ const AdminProducts = () => {
               setFormData={setFormData}
               onSubmit={onSubmit}
               formControls={addProductFormElements}
-              isFormValid={isFormValid(formData)}
+              isFormValid={isFormValid(formData, addProductFormElements)}
             />
           </div>
         </SheetContent>

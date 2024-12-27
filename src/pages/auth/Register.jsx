@@ -10,22 +10,31 @@ const initialState = {
   userName: "",
   email: "",
   password: "",
+  // preferredCurrency: "",
 };
 const Register = () => {
+  // const { preferredCurrencyList } = useSelector((state) => state.currencyRate);
   const [formData, setFormData] = useState(initialState);
+  // const [registerFormControlsFields, setRegisterFormControlsFields] =
+  //   useState(registerFormControls);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
   const onSubmit = (event) => {
-    console.log("formdata", formData);
     event.preventDefault();
+    if (formData.password !== formData.reEnterpassword) {
+      toast({
+        title: "Password dose not matched!",
+        variant: "destructive",
+      });
+      return;
+    }
     dispatch(registerUser(formData)).then((data) => {
-      console.log(data);
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,
         });
-        navigate("/auth/login");
+        navigate("/auth/otpVerification");
       } else {
         toast({
           title: data?.payload?.message,
@@ -34,6 +43,19 @@ const Register = () => {
       }
     });
   };
+  // useEffect(() => {
+  //   if (preferredCurrencyList && preferredCurrencyList.length > 0) {
+  //     const dummyRegisterFormControlsFields = registerFormControlsFields.map(
+  //       (item) => {
+  //         if (item.name === "preferredCurrency") {
+  //           item.options = preferredCurrencyList;
+  //         }
+  //         return item;
+  //       }
+  //     );
+  //     setRegisterFormControlsFields(dummyRegisterFormControlsFields);
+  //   }
+  // }, [preferredCurrencyList]);
 
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
@@ -44,7 +66,7 @@ const Register = () => {
         <p className="mt-2">
           Already have an account
           <Link
-            className="font-medium ml-2 text-primary hover:underline"
+            className="font-medium ml-2 text-blue-500 underline cursor-pointer"
             to="/auth/login"
           >
             Login
@@ -57,7 +79,7 @@ const Register = () => {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
-        isFormValid={isFormValid(formData)}
+        isFormValid={isFormValid(formData, registerFormControls)}
       />
     </div>
   );

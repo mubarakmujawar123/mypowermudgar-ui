@@ -7,6 +7,7 @@ import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ProductImageUpload = ({
   imageFile,
@@ -41,7 +42,7 @@ const ProductImageUpload = ({
     const data = new FormData();
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "http://localhost:5000/api/admin/products/upload-image",
+      `${baseUrl}/admin/products/upload-image`,
       data
     );
     console.log(response);

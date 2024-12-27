@@ -1,3 +1,28 @@
+// import { countryList } from "./constant";
+
+const optionsForWeightAndHeight = [
+  { id: "0", label: "0", value: "0" },
+  { id: "1-2", label: "1-2", value: "1-2" },
+  { id: "2-3", label: "2-3", value: "2-3" },
+  { id: "3-4", label: "3-4", value: "3-4" },
+  { id: "4-5", label: "4-5", value: "4-5" },
+  { id: "5-6", label: "5-6", value: "5-6" },
+  { id: "6-7", label: "6-7", value: "6-7" },
+  { id: "7-8", label: "7-8", value: "7-8" },
+  { id: "8-9", label: "8-9", value: "8-9" },
+  { id: "9-10", label: "9-10", value: "9-10" },
+  { id: "10-11", label: "10-11", value: "10-11" },
+  { id: "11-12", label: "11-12", value: "11-12" },
+  { id: "12-13", label: "12-13", value: "12-13" },
+  { id: "13-14", label: "13-14", value: "13-14" },
+  { id: "14-15", label: "14-15", value: "14-15" },
+  { id: "15-16", label: "15-16", value: "15-16" },
+  { id: "16-17", label: "16-17", value: "16-17" },
+  { id: "17-18", label: "17-18", value: "17-18" },
+  { id: "18-19", label: "18-19", value: "18-19" },
+  { id: "19-20", label: "19-20", value: "19-20" },
+];
+
 export const registerFormControls = [
   {
     name: "userName",
@@ -5,6 +30,7 @@ export const registerFormControls = [
     placeholder: "Enter your user name",
     componentType: "input",
     type: "text",
+    isMandatory: true,
   },
   {
     name: "email",
@@ -12,6 +38,7 @@ export const registerFormControls = [
     placeholder: "Enter your email",
     componentType: "input",
     type: "email",
+    isMandatory: true,
   },
   {
     name: "password",
@@ -19,7 +46,23 @@ export const registerFormControls = [
     placeholder: "Enter your password",
     componentType: "input",
     type: "password",
+    isMandatory: true,
   },
+  {
+    name: "reEnterpassword",
+    label: "Re-Enter Password",
+    placeholder: "Re-Enter your password",
+    componentType: "input",
+    type: "password",
+    isMandatory: true,
+  },
+  // {
+  //   name: "preferredCurrency",
+  //   label: "Preferred Currency",
+  //   componentType: "select",
+  //   options: [],
+  //   isMandatory: true,
+  // },
 ];
 export const loginFormControls = [
   {
@@ -28,6 +71,7 @@ export const loginFormControls = [
     placeholder: "Enter your email",
     componentType: "input",
     type: "email",
+    isMandatory: true,
   },
   {
     name: "password",
@@ -35,6 +79,26 @@ export const loginFormControls = [
     placeholder: "Enter your password",
     componentType: "input",
     type: "password",
+    isMandatory: true,
+  },
+];
+
+export const resetPasswordFormControls = [
+  {
+    name: "newPassword",
+    label: "New Password",
+    placeholder: "Enter new your password",
+    componentType: "input",
+    type: "password",
+    isMandatory: true,
+  },
+  {
+    name: "reEnterNewpassword",
+    label: "Re-Enter New Password",
+    placeholder: "Re-Enter New your password",
+    componentType: "input",
+    type: "password",
+    isMandatory: true,
   },
 ];
 
@@ -45,12 +109,14 @@ export const addProductFormElements = [
     componentType: "input",
     type: "text",
     placeholder: "Enter product title",
+    isMandatory: true,
   },
   {
     label: "Description",
     name: "description",
     componentType: "textarea",
     placeholder: "Enter product description",
+    isMandatory: true,
   },
   {
     label: "Category",
@@ -63,39 +129,47 @@ export const addProductFormElements = [
       { id: "samtola", label: "Samtola" },
       { id: "comboKit", label: "Combo Kit" },
     ],
+    isMandatory: true,
   },
   {
     label: "Wood Type",
     name: "woodType",
-    componentType: "select",
+    componentType: "multiselect",
     options: [
-      { id: "babool", label: "Babool (Acacia)" },
-      { id: "sagwan", label: "Sagwan (Teak Wood)" },
+      { id: "babool", label: "Babool (Acacia)", value: "babool" },
+      { id: "sagwan", label: "Sagwan (Teak Wood)", value: "sagwan" },
     ],
+    isMandatory: true,
   },
   {
     label: "Height",
     name: "height",
-    componentType: "input",
+    componentType: "multiselect",
+    options: optionsForWeightAndHeight,
+    isMandatory: true,
   },
   {
     label: "Weight",
     name: "weight",
-    componentType: "input",
+    componentType: "multiselect",
+    options: optionsForWeightAndHeight,
+    isMandatory: true,
   },
   {
-    label: "Price",
+    label: "Price (per kg)",
     name: "price",
     componentType: "input",
     type: "number",
     placeholder: "Enter product price",
+    isMandatory: true,
   },
   {
-    label: "Sale Price",
+    label: "Sale Price (per kg)",
     name: "salePrice",
     componentType: "input",
     type: "number",
     placeholder: "Enter sale price",
+    isMandatory: true,
   },
   {
     label: "Total Stock",
@@ -103,5 +177,153 @@ export const addProductFormElements = [
     componentType: "input",
     type: "number",
     placeholder: "Enter total stock",
+    isMandatory: true,
+  },
+];
+export const addProducToCartElements = [
+  {
+    label: "Wood Type",
+    name: "woodType",
+    componentType: "select",
+    hidden: false,
+    options: [
+      { id: "babool", label: "Babool (Acacia)" },
+      { id: "sagwan", label: "Sagwan (Teak Wood)" },
+    ],
+    isMandatory: true,
+  },
+  {
+    label: "Height (feet)",
+    name: "height",
+    componentType: "select",
+    hidden: false,
+    options: [],
+    isMandatory: true,
+  },
+  {
+    label: "Weight (kg)",
+    name: "weight",
+    componentType: "select",
+    hidden: false,
+    options: [],
+    isMandatory: true,
+  },
+
+  {
+    label: "Quantity",
+    name: "quantity",
+    hidden: false,
+    componentType: "counter",
+    isMandatory: true,
+  },
+];
+
+export const shoppingViewHeaderMenuItems = [
+  { id: "home", label: "Home", path: "/" },
+  { id: "all-products", label: "All Products", path: "/shop/listing" },
+  { id: "mudgar", label: "Mudgar", path: "/shop/listing" },
+  { id: "gada", label: "Gada", path: "/shop/listing" },
+  { id: "pushUpBoard", label: "Push Up Board", path: "/shop/listing" },
+  { id: "samtola", label: "Samtola", path: "/shop/listing" },
+  { id: "comboKit", label: "Combo Kit", path: "/shop/listing" },
+  // { id: "search", label: "Search", path: "/shop/search" },
+];
+
+export const addressFormControls = [
+  {
+    label: "Phone",
+    name: "phone",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your phone number",
+    isMandatory: true,
+  },
+  {
+    label: "Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your address",
+    isMandatory: true,
+  },
+  {
+    label: "Pincode",
+    name: "pincode",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your pincode",
+    isMandatory: true,
+  },
+  {
+    label: "City",
+    name: "city",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your city",
+    isMandatory: true,
+  },
+  {
+    label: "State",
+    name: "state",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your state/region",
+    isMandatory: true,
+  },
+  {
+    label: "Country",
+    name: "country",
+    componentType: "combobox",
+    options: [],
+    placeholder: "Select your country",
+    isMandatory: true,
+  },
+  {
+    label: "Notes",
+    name: "notes",
+    componentType: "textarea",
+    placeholder: "Enter any additional notes",
+    isMandatory: false,
+  },
+  // {
+  //   label: "Set as default address",
+  //   name: "isDefault",
+  //   type: "checkbox",
+  //   componentType: "checkbox",
+  //   isMandatory: false,
+  // },
+];
+
+export const adminOrderStatusControls = [
+  {
+    label: "Logistic Company",
+    name: "logisticsCompany",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Logistic Company Name",
+    isMandatory: true,
+  },
+  {
+    label: "Consignment Number",
+    name: "consignmentNumber",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Consignment Number",
+    isMandatory: true,
+  },
+  {
+    label: "Order Status",
+    name: "orderStatus",
+    componentType: "select",
+    isMandatory: true,
+    options: [
+      { id: "CANCELLED", label: "CANCELLED", disabled: true },
+      { id: "CONFIRMED", label: "CONFIRMED", disabled: true },
+      { id: "PENDING", label: "PENDING" },
+      { id: "INPROGRESS", label: "IN PROGRESS" },
+      { id: "INSHIPPING", label: "IN SHIPPING" },
+      { id: "DELIVERED", label: "DELIVERED" },
+      { id: "REJECTED", label: "REJECTED" },
+    ],
   },
 ];
