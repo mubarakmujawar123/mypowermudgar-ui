@@ -138,7 +138,7 @@ const ShoppingHome = () => {
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   {/* <categoryItem.icon className="w-12 h-12 mb-4 text-primary" /> */}
                   <span className="font-bold mt-6">{categoryItem.label}</span>
-                  <img src={`../src/assets/Category/${categoryItem.id}.jpg`} />
+                  <img src={`../src/assets/category/${categoryItem.id}.jpg`} />
                 </CardContent>
               </Card>
             ))}
