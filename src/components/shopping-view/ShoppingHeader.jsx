@@ -84,7 +84,8 @@ const MenuItems = ({ setOpenMenu }) => {
   );
 };
 
-const HeaderRightContent = () => {
+// eslint-disable-next-line react/prop-types
+const HeaderRightContent = ({ setOpenMenu }) => {
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
@@ -94,6 +95,7 @@ const HeaderRightContent = () => {
   const { toast } = useToast();
 
   const handleLogout = () => {
+    setOpenMenu(false);
     dispatch(logoutUser());
   };
   const currencyChangeHandler = (value) => {
@@ -122,7 +124,10 @@ const HeaderRightContent = () => {
     return (
       <div className="mt-6 lg:mt-0 md:mt-0">
         <Button
-          onClick={() => navigate("/auth/login")}
+          onClick={() => {
+            setOpenMenu(false);
+            navigate("/auth/login");
+          }}
           size="icon"
           className="pl-10 pr-10"
         >
@@ -160,7 +165,9 @@ const HeaderRightContent = () => {
           </SelectContent>
         </Select>
         <Button
-          onClick={() => setOpenCartSheet(true)}
+          onClick={() => {
+            setOpenCartSheet(true);
+          }}
           variant="outline"
           size="icon"
           className="relative flex w-auto"
@@ -177,6 +184,7 @@ const HeaderRightContent = () => {
         </Button>
         <UserCartWrapper
           setOpenCartSheet={setOpenCartSheet}
+          setOpenMenu={setOpenMenu}
           cartItems={
             cartItems && cartItems.items && cartItems.items.length > 0
               ? cartItems.items
@@ -197,7 +205,10 @@ const HeaderRightContent = () => {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer"
-            onClick={() => navigate("/shop/account")}
+            onClick={() => {
+              setOpenMenu(false);
+              navigate("/shop/account");
+            }}
           >
             <UserCog className="mr-2 h-4 w-4" />
             Account
@@ -236,14 +247,14 @@ const ShoppingHeader = () => {
           {/* </SheetTrigger> */}
           <SheetContent className="w-full max-w-xs" side="left">
             <MenuItems setOpenMenu={setOpenMenu} />
-            <HeaderRightContent />
+            <HeaderRightContent setOpenMenu={setOpenMenu} />
           </SheetContent>
         </Sheet>
         <div className="hidden lg:block">
           <MenuItems setOpenMenu={setOpenMenu} />
         </div>
         <div className="hidden lg:block">
-          <HeaderRightContent />
+          <HeaderRightContent setOpenMenu={setOpenMenu} />
         </div>
       </div>
     </header>

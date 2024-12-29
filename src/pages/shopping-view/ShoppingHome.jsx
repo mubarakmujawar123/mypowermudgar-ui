@@ -5,26 +5,19 @@ import bannerThree from "../../assets/banner-3.jpeg";
 import aboutus from "../../assets/about-us.jpeg";
 import contactus from "../../assets/contact-us.jpeg";
 import instagram from "../../assets/instagram.png";
-import {
-  BabyIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CloudLightning,
-  ShirtIcon,
-  WatchIcon,
-} from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 // import YouTube from "react-youtube";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const categoriesWithIcon = [
-  { id: "all-products", label: "All Products", icon: ShirtIcon },
-  { id: "mudgar", label: "Mudgar", icon: ShirtIcon },
-  { id: "gada", label: "Gada", icon: CloudLightning },
-  { id: "samtola", label: "Samtola", icon: BabyIcon },
-  { id: "pushUpBoard", label: "Push Up Board", icon: WatchIcon },
-  { id: "comboKit", label: "Combo Kit", icon: WatchIcon },
+  { id: "all-products", label: "All Products", icon: "All Products" },
+  { id: "mudgar", label: "Mudgar", icon: "Mugdar" },
+  { id: "gada", label: "Gada", icon: "Gada" },
+  { id: "samtola", label: "Samtola", icon: "Samtola" },
+  { id: "pushUpBoard", label: "Push Up Board", icon: "Push-Up-Board" },
+  { id: "comboKit", label: "Combo Kit", icon: "Combo-Kit" },
 ];
 // const videoOptions = {
 //   height: "500",
@@ -35,8 +28,8 @@ const categoriesWithIcon = [
 // };
 const bannerTextObj = {
   0: "Unleash Your Inner Strength with the Power of Tradition.Discover premium handcrafted wooden workout equipment designed to engage your body and mind for holistic fitness.",
-  1: "Elevate Your Training with Timeless Tradition. Premium wooden workout equipment designed for holistic fitness and unparalleled durability.",
-  2: "Redefine Fitness with the Strength of Tradition. Handcrafted wooden tools to empower your body and mind with every movement.",
+  1: "Redefine Fitness with the Strength of Tradition. Handcrafted wooden tools to empower your body and mind with every movement.",
+  2: "Elevate Your Training with Timeless Tradition. Premium wooden workout equipment designed for holistic fitness and unparalleled durability.",
 };
 
 const featureImageList = [
@@ -68,7 +61,7 @@ const ShoppingHome = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
-    }, 5000);
+    }, 7000);
 
     return () => clearInterval(timer);
   }, [featureImageList]);
@@ -90,7 +83,7 @@ const ShoppingHome = () => {
                 <div
                   className={`${
                     index === currentSlide ? "opacity-100" : "opacity-0"
-                  } p-10 absolute bottom-0 text-xl md:text-3xl  lg:text-3xl  xl:text-3xl text-center bg-gradient-to-t from-slate-400/70 via-slate-700/90 to-slate-400/70 text-white `}
+                  } p-10 absolute bottom-0 text-sm md:text-3xl  lg:text-3xl  xl:text-3xl text-center bg-gradient-to-t from-slate-400/70 via-slate-700/90 to-slate-400/70 text-white `}
                 >
                   {getBannerText}
                 </div>
@@ -133,7 +126,7 @@ const ShoppingHome = () => {
           <h2 className="text-3xl font-bold text-center mb-8">
             Shop by category
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
             {categoriesWithIcon.map((categoryItem) => (
               <Card
                 key={categoryItem.id}
@@ -143,8 +136,9 @@ const ShoppingHome = () => {
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{categoryItem.label}</span>
+                  {/* <categoryItem.icon className="w-12 h-12 mb-4 text-primary" /> */}
+                  <span className="font-bold mt-6">{categoryItem.label}</span>
+                  <img src={`../src/assets/Category/${categoryItem.id}.jpg`} />
                 </CardContent>
               </Card>
             ))}
@@ -168,10 +162,13 @@ const ShoppingHome = () => {
           </div>
         </div>
       </section> */}
-      <section className="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <section
+        className="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-10"
+        id="about-us"
+      >
         <div className="left-4 px-4">
           <h2 className="text-3xl font-bold text-center mb-8 mt-3">About Us</h2>
-          <p className="text-lg ml-14">
+          <p className="text-lg ml-1">
             At <b>MyPowerMudgar</b>, we are dedicated to preserving and sharing
             the timeless strength of traditional Indian fitness practices. Our
             expertly crafted workout equipment is designed to enhance both
@@ -181,14 +178,14 @@ const ShoppingHome = () => {
             fitness.
           </p>
           <br />
-          <p className="text-lg ml-14">
+          <p className="text-lg ml-1">
             Our mission is to bring these age-old training techniques to
             enthusiasts worldwide. With a focus on quality craftsmanship and
             global accessibility, we ensure our wooden training aids deliver a
             comprehensive workout experience that engages the entire body.
           </p>
           <br />
-          <p className="text-lg ml-14">
+          <p className="text-lg ml-1">
             Discover the transformative power of tradition with us, and join a
             community that values heritage, sustainability, and total-body
             strength.
@@ -202,17 +199,17 @@ const ShoppingHome = () => {
         <div className="left-4 px-4">
           <img src={contactus} />
         </div>
-        <div className="left-4 px-4">
+        <div className="left-4 px-4" id="contact-us">
           <h2 className="text-3xl font-bold text-center mb-8">Contact Us</h2>
-          <p className="text-lg ml-14">
+          <p className="text-lg ml-1">
             We&apos;re here to help! Have questions, concerns, or need
             assistance?
           </p>
-          <p className="text-lg ml-14">
+          <p className="text-lg ml-1">
             Reach out to us through any of the following methods:
           </p>
           <br />
-          <p className="text-lg ml-14">
+          <p className="text-lg ml-1">
             <b>Email</b>
             <br />
             <a
@@ -223,19 +220,19 @@ const ShoppingHome = () => {
             </a>
           </p>
           <br />
-          <p className="text-lg ml-14">
+          <p className="text-lg ml-1">
             <b>Call</b>
             <br />
             <span className=" text-blue-700">+91 1234567890</span>
           </p>
           <br />
-          <p className="text-lg ml-14">
-            <b>WhatsUp</b>
+          <p className="text-lg ml-1">
+            <b>WhatsApp</b>
             <br />
             <span className="text-blue-700">+91 1234567890</span>
           </p>
           <br />
-          <p className="text-lg ml-14">
+          <p className="text-lg ml-1">
             We value your feedback and are committed to providing the best
             shopping experience. Let us know how we can assist you today!
           </p>

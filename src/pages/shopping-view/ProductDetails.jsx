@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { addToCart, fetchCartItems } from "@/store/shop/shoppingCartSlice";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -95,17 +96,17 @@ export const ProductDetails = () => {
   }, [selectedProduct, location]);
 
   return (
-    <div className="w-9/12 mx-auto flex justify-center">
+    <div className="flex justify-center flex-col md:flex-row lg:flex-row flex-wrap">
       <Button
         type="button"
         variant="outline"
         onClick={() => navigate(-1)}
-        className="m-5"
+        className="m-5 max-w-[30vw]"
       >
         <ArrowLeft className="mr-2" />
         Back
       </Button>
-      <div className="m-5 w-6/12">
+      <div className="m-5 w-2/5 max-h-[50vh]">
         <img
           className="object-cover"
           src={selectedProduct?.image}
@@ -113,14 +114,14 @@ export const ProductDetails = () => {
           width="500"
         />
       </div>
-      <div className="m-5 w-6/12">
+      <div className="m-5 w-2/5">
         <h2 className="font-semibold text-3xl">{selectedProduct?.title}</h2>
         {selectedProduct?.salePrice > 0 ? (
           <Badge className="font-medium bg-black hover:bg-black mb-3 mt-3">
             Sale
           </Badge>
         ) : null}
-        <div className="w-6/12 flex items-center mb-3">
+        <div className="flex items-center mb-3">
           <span className="text-2xl font-semibold flex items-center">
             <div className="text-lg">Price: </div>
             <div>
@@ -161,7 +162,7 @@ export const ProductDetails = () => {
         <p className="mb-2">
           Category : {getConstantValue(selectedProduct?.category)}
         </p>
-        <div className="w-6/12">
+        <div className="lg:max-w-[20vw] md:max-w-[20vw]">
           <CommonForm
             hideSubmitButton={!user?.id ? true : false}
             buttonText={"Add To Cart"}
@@ -172,7 +173,9 @@ export const ProductDetails = () => {
             isFormValid={isFormValid(formData, formElements)}
           />
         </div>
-        <p className="mt-5 mb-5 text-lg">{selectedProduct?.description}</p>
+        <p className="mt-5 mb-5 flex flex-col gap-4">
+          <ReactMarkdown>{selectedProduct?.description}</ReactMarkdown>
+        </p>
       </div>
     </div>
   );
