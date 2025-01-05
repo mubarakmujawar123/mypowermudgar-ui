@@ -68,17 +68,8 @@ const Login = () => {
 
   const onUpdatePasswordSubmit = (event) => {
     event.preventDefault();
-    console.log(
-      "isOTPSent, isResetPasswordOTPVerified",
-      isOTPSent,
-      isResetPasswordOTPVerified
-    );
+
     if (isOTPSent && isResetPasswordOTPVerified) {
-      console.log(
-        "resetPasswordFormData.newPassword",
-        resetPasswordFormData.newPassword,
-        resetPasswordFormData.reEnterNewpassword
-      );
       if (
         resetPasswordFormData.newPassword !==
         resetPasswordFormData.reEnterNewpassword
@@ -112,7 +103,6 @@ const Login = () => {
 
   const resetPasswordOTPHandler = (e) => {
     e.preventDefault();
-    console.log(emailForResetPassword);
     if (!isOTPSent) {
       dispatch(getResetPasswordOTP({ email: emailForResetPassword })).then(
         (data) => {

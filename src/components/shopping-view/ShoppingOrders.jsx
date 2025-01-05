@@ -14,10 +14,13 @@ import ShoppingOrderDetails from "./ShoppingOrderDetails";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllOrdersByUserId,
+  getInvoice,
   getOrderDetails,
   resetOrderDetails,
 } from "@/store/shop/shoppingOrderSlice";
 import { convertPriceForOrderPage, getCurrencySymbol } from "@/config/utils";
+import { ArrowDownToLine } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const ShoppingOrders = () => {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -25,13 +28,36 @@ const ShoppingOrders = () => {
   const { user } = useSelector((state) => state.auth);
   const { orderList, orderDetails } = useSelector((state) => state.shopOrder);
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
-  function handleFetchOrderDetails(getId) {
+  const handleFetchOrderDetails = (getId) => {
     dispatch(getOrderDetails(getId));
-  }
+  };
+  const generateInvoiceHandler = (orderId) => {
+    dispatch(getInvoice(orderId)).then((data) => {
+      if (data.payload) {
+        const blob = new Blob([data.payload], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank");
+
+        //to direct download
+        // const link = document.createElement("a");
+        // link.href = URL.createObjectURL(blob);
+        // link.download = "invoice.pdf";
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+      } else {
+        toast({
+          title: "Error in download Invoice!",
+          variant: "destructive",
+        });
+      }
+    });
+  };
 
   useEffect(() => {
-    dispatch(getAllOrdersByUserId(user?.id));
+    if (user?.id) dispatch(getAllOrdersByUserId(user?.id));
   }, [dispatch, user?.id]);
 
   useEffect(() => {
@@ -52,6 +78,7 @@ const ShoppingOrders = () => {
               <TableHead>Order Price</TableHead>
               <TableHead>Shipping Charges</TableHead>
               <TableHead>Total Order Amount</TableHead>
+              <TableHead>Invoice</TableHead>
               {/* <TableHead>Payment Status</TableHead> */}
               <TableHead>
                 <span className="sr-only">Details </span>
@@ -100,6 +127,17 @@ const ShoppingOrders = () => {
                         )
                       )
                     ).toFixed(2)}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        generateInvoiceHandler(orderItem?._id);
+                      }}
+                    >
+                      <ArrowDownToLine />
+                    </Button>
                   </TableCell>
                   {/* <TableCell>{orderItem?.paymentStatus}</TableCell> */}
                   <TableCell className="flex justify-end">

@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { createNewOrder } from "@/store/shop/shoppingOrderSlice";
 import UserCartItems from "@/components/shopping-view/UserCartItems";
 import { payPalAcceptedCurrancies } from "@/config/constant";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { updateSelectedAddress } from "@/store/shop/shoppingAddressSlice";
 
 const Checkout = () => {
@@ -22,11 +22,11 @@ const Checkout = () => {
   const { currencyRateList } = useSelector((state) => state.currencyRate);
   const { shippingChargesList } = useSelector((state) => state.shippingCharges);
   const { user } = useSelector((state) => state.auth);
-  const { approvalURL, orderId } = useSelector((state) => state.shopOrder);
+  const { approvalURL } = useSelector((state) => state.shopOrder);
   const { selectedAddress } = useSelector((state) => state.shopAddress);
   const { toast } = useToast();
   const dispatch = useDispatch();
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
 
   const totalCartAmount = calculateTotalCartPrice(cartItems?.items);
@@ -91,9 +91,10 @@ const Checkout = () => {
       orderStatus: "PENDING",
       paymentMethod: "Paypal",
       paymentStatus: "PENDING",
-      totalAmount: totalCartAmount,
-      totalCartPriceWithPreferredCurrency: totalCartPriceWithPreferredCurrency,
-      shippingCost: shippingCost,
+      totalAmount: totalCartAmount.toFixed(2),
+      totalCartPriceWithPreferredCurrency:
+        totalCartPriceWithPreferredCurrency.toFixed(2),
+      shippingCost: shippingCost.toFixed(2),
       orderDate: new Date(),
       orderUpdateDate: new Date(),
       infoForPayPal: getInfoForPayPal(),
@@ -173,7 +174,6 @@ const Checkout = () => {
                 ? "Processing Paypal Payment..."
                 : "Checkout with Paypal"}
             </Button>
-            {console.log("cartItems.length", cartItems)}
             {cartItems && cartItems?.items?.length > 0 && !selectedAddress ? (
               <div className="text-lg mt-2 text-red-600">
                 Select delivery address to proceed.

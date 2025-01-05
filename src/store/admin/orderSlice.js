@@ -58,22 +58,22 @@ const orderSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getOrdersOfAllUsers.fulfilled, (state, action) => {
-        state.isLoading = true;
+        state.isLoading = false;
         state.orderList = action.payload.data;
       })
       .addCase(getOrdersOfAllUsers.rejected, (state) => {
-        state.isLoading = true;
+        state.isLoading = false;
         state.orderList = [];
       })
       .addCase(getOrderDetailsForAdmin.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getOrderDetailsForAdmin.fulfilled, (state, action) => {
-        state.isLoading = true;
+        state.isLoading = false;
         state.orderDetails = action.payload.data;
       })
       .addCase(getOrderDetailsForAdmin.rejected, (state) => {
-        state.isLoading = true;
+        state.isLoading = false;
         state.orderDetails = null;
       });
   },

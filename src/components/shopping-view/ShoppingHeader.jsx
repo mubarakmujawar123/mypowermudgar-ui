@@ -1,12 +1,11 @@
-import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
+import { LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
 import {
   createSearchParams,
   Link,
-  useLocation,
   useNavigate,
   // useSearchParams,
 } from "react-router-dom";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { shoppingViewHeaderMenuItems } from "@/config/config";
 import { Label } from "../ui/label";
@@ -230,7 +229,13 @@ const ShoppingHeader = () => {
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/" className="flex items-center gap-2">
-          {/* <HousePlug className="h-6 w-6" /> */}
+          <img
+            src="/mymudgar-icon.svg"
+            height={25}
+            width={25}
+            alt="mypowermudgar"
+            className="self-center"
+          />
           <span className="font-bold text-2xl">MyPowerMudgar</span>
         </Link>
         <Sheet open={openMenu} onOpenChange={() => setOpenMenu(false)}>

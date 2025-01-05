@@ -9,7 +9,7 @@ const Loader = () => {
     //   </div>
     // </div>
     <div role="status" className="fixed top-0 left-0">
-      <div className="flex h-[100vh] w-[100vw] align-middle justify-center items-center flex-col bg-black bg-opacity-20">
+      <div className="flex h-[100vh] w-[100vw] align-middle justify-center items-center flex-col bg-white bg-opacity-20">
         <svg
           aria-hidden="true"
           className="inline w-20 h-20 text-gray-200 animate-spin dark:text-gray-600 fill-black"

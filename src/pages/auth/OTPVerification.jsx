@@ -24,7 +24,6 @@ const OTPVerification = ({
   resetAllStateForResetPassword = null,
 }) => {
   const [value, setValue] = useState("");
-  console.log("in otp");
   // const [showResendButton, setShowResendButton] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();

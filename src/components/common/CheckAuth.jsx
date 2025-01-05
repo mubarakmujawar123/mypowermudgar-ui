@@ -44,9 +44,7 @@ const CheckAuth = ({
     (!isLoading &&
       !isAuthenticated &&
       location.pathname.includes("/cancel-payment")) ||
-    (!isLoading &&
-      !isAuthenticated &&
-      location.pathname.includes("/shop/account"))
+    (!isAuthenticated && location.pathname.includes("/shop/account"))
   ) {
     console.log("3");
     return <Navigate to="/auth/login" />;

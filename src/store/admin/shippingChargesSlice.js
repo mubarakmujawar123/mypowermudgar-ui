@@ -56,7 +56,6 @@ const shippingChargesSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getShippingCharges.fulfilled, (state, action) => {
-        console.log("action", action);
         state.isLoading = false;
         state.shippingChargesList = action?.payload?.data;
       })

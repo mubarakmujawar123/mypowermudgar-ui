@@ -71,7 +71,6 @@ const UpdateShippingCharges = () => {
   };
 
   const submitRowHandler = (editedCountry) => {
-    console.log("editedCountry", editedCountry);
     setIsEditMode(false);
     setEditModeCounter((prev) => prev - 1);
     if (editedCountry && editedCountry.startsWith("New")) {
@@ -103,9 +102,7 @@ const UpdateShippingCharges = () => {
 
   const submitShippingChargesHandler = (e) => {
     e.preventDefault();
-    console.log("data in submit", data);
     dispatch(setShippingCharges({ charges: data })).then((data) => {
-      console.log("payload Data", data);
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,

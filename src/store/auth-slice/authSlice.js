@@ -75,7 +75,6 @@ export const resendOTP = createAsyncThunk("/auth/resendOTP", async ({ id }) => {
 export const getResetPasswordOTP = createAsyncThunk(
   "/auth/getResetPasswordOTP",
   async ({ email }) => {
-    console.log("email", email);
     try {
       const response = await APIConfig.post("/auth/resetPasswordOTP", {
         email,

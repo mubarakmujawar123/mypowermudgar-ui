@@ -41,7 +41,7 @@ function App() {
     dispatch(getShippingCharges());
   }, [dispatch]);
 
-  // if (isLoading) return <Loader />;
+  if (isLoading) return <Loader />;
   return (
     <>
       <div className="flex flex-col overflow-y-auto bg-white min-h-[100vh]">

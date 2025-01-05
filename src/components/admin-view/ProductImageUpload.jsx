@@ -45,7 +45,6 @@ const ProductImageUpload = ({
       `${baseUrl}/admin/products/upload-image`,
       data
     );
-    console.log(response);
     if (response?.data?.success) {
       setUploadedImageUrl(response.data.data.url);
       setImageLoadingState(false);

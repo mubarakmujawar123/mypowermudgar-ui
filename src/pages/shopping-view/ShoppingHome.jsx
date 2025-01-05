@@ -79,7 +79,6 @@ const ShoppingHome = () => {
                     index === currentSlide ? "opacity-100" : "opacity-0"
                   } absolute top-0 left-0 w-full h-full object-fill transition-opacity duration-1000`}
                 />
-                {console.log("currentSlide", currentSlide)}
                 <div
                   className={`${
                     index === currentSlide ? "opacity-100" : "opacity-0"

@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { adminOrderStatusControls } from "@/config/config";
 import { getConstantValue, isFormValid } from "@/config/utils";
 import {
-  getOrderDetailsForAdmin,
+  // getOrderDetailsForAdmin,
   getOrdersOfAllUsers,
   updateOrderStatus,
 } from "@/store/admin/orderSlice";
@@ -221,7 +221,6 @@ const AdminOrderDetailsView = ({ orderDetails, setOpenDetailsDialog }) => {
             </div>
           </div>
           <Separator />
-          {console.log("orderDetails?.orderStatus", orderDetails?.orderStatus)}
           {orderDetails?.orderStatus !== "CANCELLED" ? (
             <div>
               <CommonForm

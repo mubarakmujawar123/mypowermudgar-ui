@@ -75,6 +75,17 @@ export const getOrderDetails = createAsyncThunk(
   }
 );
 
+export const getInvoice = createAsyncThunk("order/getInvoice", async (id) => {
+  try {
+    const response = await APIConfig.get(`/shop/order/getInvoice/${id}`, {
+      responseType: "blob", // Important for handling files
+    });
+    return response?.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+});
+
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrderSlice",
   initialState,
@@ -123,6 +134,15 @@ const shoppingOrderSlice = createSlice({
       .addCase(getOrderDetails.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;
+      })
+      .addCase(getInvoice.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getInvoice.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(getInvoice.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
