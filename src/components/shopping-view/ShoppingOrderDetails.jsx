@@ -4,6 +4,7 @@ import { DialogContent, DialogTitle } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import {
+  calculateItemPrice,
   convertPriceForOrderPage,
   getConstantValue,
   getCurrencySymbol,
@@ -143,9 +144,18 @@ const ShoppingOrderDetails = ({ orderDetails }) => {
                             </div>
                             <div>
                               <span className="font-semibold">Price: </span>
-                              {convertPriceForOrderPage(
+                              {/* {convertPriceForOrderPage(
                                 cartItem?.price,
                                 orderDetails?.orderInCurrency,
+                                orderDetails?.orderInCurrencyRate
+                              )} */}
+                              {getCurrencySymbol(orderDetails?.orderInCurrency)}
+                              {calculateItemPrice(
+                                cartItem?.price,
+                                cartItem?.quantity,
+                                cartItem?.productAdditionalInfo,
+                                false,
+                                true,
                                 orderDetails?.orderInCurrencyRate
                               )}
                             </div>

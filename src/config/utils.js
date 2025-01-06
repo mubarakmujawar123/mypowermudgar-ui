@@ -85,9 +85,13 @@ export const calculateItemPrice = (
   basePrice,
   quantity,
   productAdditionalInfo,
-  convertPriceToPrefferedCurrency = false
+  convertPriceToPrefferedCurrency = false,
+  isForOrderPage = false,
+  orderInCurrencyRate = 1
 ) => {
-  let finalPrice = basePrice;
+  let finalPrice = isForOrderPage
+    ? Number(basePrice) * Number(orderInCurrencyRate)
+    : Number(basePrice);
 
   let productWeight = productAdditionalInfo?.weight;
   if (productWeight) {
